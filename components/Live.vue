@@ -21,8 +21,12 @@ const paginatedData = computed(() => {
 </script>
 
 <template>
-  <div v-if="pending">Loading ...</div>
-  <div v-else-if="error">Error loading data</div>
+  <div v-if="pending" class="flex items-center justify-center h-full">
+    Loading ...
+  </div>
+  <div v-else-if="error" class="flex items-center justify-center h-full">
+    Error loading data
+  </div>
   <div v-else class="flex flex-col h-full divide-y">
     <div class="grow-[0] h-full overflow-y-scroll">
       <Table>
