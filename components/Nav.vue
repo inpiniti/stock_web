@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const { market } = useSelected();
+
 const sectorList = ref([
   "비에너지 미네럴",
   "리테일 트레이드",
@@ -37,21 +39,33 @@ const sectorList = ref([
     </Tooltip>
   </div>
   <div class="shrink-0 p-2 flex flex-col gap-1">
-    <Button class="flex gap-2 text-left justify-normal py-0">
+    <Button
+      class="flex gap-2 text-left justify-normal py-0"
+      @click="market = 'seoul'"
+      :variant="market == 'seoul' ? 'default' : 'ghost'"
+    >
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/KR.svg"
       />
       KOSPI
     </Button>
-    <Button variant="ghost" class="flex gap-2 text-left justify-normal py-0">
+    <Button
+      class="flex gap-2 text-left justify-normal py-0"
+      @click="market = 'kosdaq'"
+      :variant="market == 'kosdaq' ? 'default' : 'ghost'"
+    >
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/KR.svg"
       />
       KOSDAQ
     </Button>
-    <Button variant="ghost" class="flex gap-2 text-left justify-normal py-0">
+    <Button
+      class="flex gap-2 text-left justify-normal py-0"
+      @click="market = 'nasdaq'"
+      :variant="market == 'nasdaq' ? 'default' : 'ghost'"
+    >
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/US.svg"
