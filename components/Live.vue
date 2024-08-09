@@ -1,10 +1,6 @@
 <script setup lang="ts">
 const { market } = useSelected();
-const apiUrl = computed(() => `/api/live/${market.value}`);
-const { data, error, status } = await useLazyFetch<any[]>(apiUrl, {
-  immediate: true,
-});
-const pending = computed(() => status.value === "pending");
+const { getSeoul, getKosdaq, getNasdaq } = useLive();
 
 const itemsPerPage = ref(100);
 const currentPage = ref(1);
@@ -18,14 +14,42 @@ const paginatedData = computed(() => {
     return data.value.slice(start, end);
   }
 });
+
+const pending = ref(false);
+const data: any = ref([]);
+
+onMounted(async () => {
+  getData();
+});
+
+const getData = async () => {
+  if (market.value === "seoul") {
+    pending.value = true;
+    data.value = await getSeoul();
+    pending.value = false;
+  } else if (market.value === "kosdaq") {
+    pending.value = true;
+    data.value = await getKosdaq();
+    pending.value = false;
+  } else if (market.value === "nasdaq") {
+    pending.value = true;
+    data.value = await getNasdaq();
+    pending.value = false;
+  }
+};
+
+watch(
+  () => market.value,
+  () => {
+    currentPage.value = 1;
+    getData();
+  }
+);
 </script>
 
 <template>
   <div v-if="pending" class="flex items-center justify-center h-full">
     Loading ...
-  </div>
-  <div v-else-if="error" class="flex items-center justify-center h-full">
-    Error loading data
   </div>
   <div v-else class="flex flex-col h-full divide-y">
     <div class="grow-[0] h-full overflow-y-scroll">
