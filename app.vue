@@ -1,20 +1,20 @@
 <script lang="ts" setup></script>
 <template>
   <TooltipProvider>
-    <div class="h-dvh w-full overflow-hidden">
+    <div class="w-full overflow-hidden h-dvh">
       <div class="flex divide-x">
-        <div class="h-dvh overflow-hidden divide-y flex flex-col w-80">
+        <div class="flex flex-col overflow-hidden divide-y h-dvh w-80">
           <div class="shrink-0 flex h-[52px] items-center px-4">
             <h1 class="text-xl font-bold">Inpiniti</h1>
           </div>
-          <div class="flex flex-col grow-[0] overflow-hidden divide-y">
+          <div class="flex flex-col grow-[0] overflow-hidden divide-y relative">
             <Nav />
           </div>
         </div>
-        <div class="h-dvh overflow-hidden w-full flex flex-col divide-y">
+        <div class="flex flex-col w-full overflow-hidden divide-y h-dvh">
           <div class="shrink-0 flex items-center px-4 py-2 h-[52px]">
             <h1 class="text-xl font-bold">종목 리스트</h1>
-            <div class="ml-auto flex gap-6">
+            <div class="flex gap-6 ml-auto">
               <div class="flex items-center gap-1">
                 게시판
                 <Tooltip>
@@ -71,14 +71,17 @@
               </div>
             </div>
           </div>
-          <div class="shrink-0 relative p-2">
+          <div class="relative p-2 shrink-0">
             <Input placeholder="Search" class="pl-10" />
             <font-awesome
               class="absolute top-5 left-5"
               icon="magnifying-glass"
             />
           </div>
-          <div value="live" class="grow-[0] overflow-hidden h-full m-0">
+          <div
+            value="live"
+            class="grow-[0] overflow-hidden h-full m-0 relative"
+          >
             <Live />
           </div>
         </div>

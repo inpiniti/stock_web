@@ -26,6 +26,9 @@ const selectedEmailData = computed(() =>
 );
 </script>
 <template>
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <div class="absolute top-0 left-0 text-red-500">AccountSwitcher</div>
+  </ClientOnly>
   <Select>
     <SelectTrigger
       aria-label="Select account"
