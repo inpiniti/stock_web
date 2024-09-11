@@ -40,6 +40,7 @@ export default defineNuxtConfig({
         "cloud-sun",
         "ellipsis-h",
         "circle-info",
+        "earth-americas",
       ],
     },
   },
