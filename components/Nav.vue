@@ -26,7 +26,10 @@ const sectorList = ref([
 </script>
 
 <template>
-  <div class="shrink-0 p-2 flex gap-1 font-bold">
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <div class="absolute top-0 left-0 text-red-500">Nav</div>
+  </ClientOnly>
+  <div class="flex gap-1 p-2 font-bold shrink-0">
     주식 시장
     <Tooltip>
       <TooltipTrigger><font-awesome icon="circle-info" /></TooltipTrigger>
@@ -38,9 +41,9 @@ const sectorList = ref([
       </TooltipContent>
     </Tooltip>
   </div>
-  <div class="shrink-0 p-2 flex flex-col gap-1">
+  <div class="flex flex-col gap-1 p-2 shrink-0">
     <Button
-      class="flex gap-2 text-left justify-normal py-0"
+      class="flex gap-2 py-0 text-left justify-normal"
       @click="market = 'seoul'"
       :variant="market == 'seoul' ? 'default' : 'ghost'"
     >
@@ -51,7 +54,7 @@ const sectorList = ref([
       KOSPI
     </Button>
     <Button
-      class="flex gap-2 text-left justify-normal py-0"
+      class="flex gap-2 py-0 text-left justify-normal"
       @click="market = 'kosdaq'"
       :variant="market == 'kosdaq' ? 'default' : 'ghost'"
     >
@@ -62,7 +65,7 @@ const sectorList = ref([
       KOSDAQ
     </Button>
     <Button
-      class="flex gap-2 text-left justify-normal py-0"
+      class="flex gap-2 py-0 text-left justify-normal"
       @click="market = 'nasdaq'"
       :variant="market == 'nasdaq' ? 'default' : 'ghost'"
     >
@@ -73,7 +76,7 @@ const sectorList = ref([
       NASDAQ
     </Button>
   </div>
-  <div class="shrink-0 p-2 flex gap-1 font-bold">
+  <div class="flex gap-1 p-2 font-bold shrink-0">
     머신러닝 학습 모듈
     <Tooltip>
       <TooltipTrigger><font-awesome icon="circle-info" /></TooltipTrigger>
@@ -89,25 +92,25 @@ const sectorList = ref([
     </Tooltip>
   </div>
   <div class="grow-[0] h-full overflow-y-scroll p-2 flex flex-col gap-1">
-    <Button class="flex gap-2 text-left justify-normal py-3">
+    <Button class="flex gap-2 py-3 text-left justify-normal">
       <font-awesome icon="globe" />
       ALL
     </Button>
-    <Button variant="ghost" class="flex gap-2 text-left justify-normal py-3">
+    <Button variant="ghost" class="flex gap-2 py-3 text-left justify-normal">
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/KR.svg"
       />
       KOSPI
     </Button>
-    <Button variant="ghost" class="flex gap-2 text-left justify-normal py-3">
+    <Button variant="ghost" class="flex gap-2 py-3 text-left justify-normal">
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/KR.svg"
       />
       KOSDAQ
     </Button>
-    <Button variant="ghost" class="flex gap-2 text-left justify-normal py-3">
+    <Button variant="ghost" class="flex gap-2 py-3 text-left justify-normal">
       <img
         class="rounded-full ring-1 ring-neutral-400"
         src="https://s3-symbol-logo.tradingview.com/country/US.svg"
@@ -118,7 +121,7 @@ const sectorList = ref([
       v-for="sector of sectorList"
       variant="ghost"
       :key="sector"
-      class="flex gap-2 text-left justify-normal py-3"
+      class="flex gap-2 py-3 text-left justify-normal"
     >
       <font-awesome v-if="sector.includes('의료')" icon="suitcase-medical" />
       <font-awesome

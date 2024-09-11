@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { market } = useSelected();
 const { getSeoul, getKosdaq, getNasdaq } = useLive();
+const { getModel } = useAiModel();
 
 const itemsPerPage = ref(100);
 const currentPage = ref(1);
@@ -17,9 +18,11 @@ const paginatedData = computed(() => {
 
 const pending = ref(false);
 const data: any = ref([]);
+const model: any = ref([]);
 
 onMounted(async () => {
   getData();
+  model.value = await getModel();
 });
 
 const getData = async () => {
@@ -48,6 +51,9 @@ watch(
 </script>
 
 <template>
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <div class="absolute top-0 left-0 text-red-500">Live</div>
+  </ClientOnly>
   <div v-if="pending" class="flex items-center justify-center h-full">
     Loading ...
   </div>
@@ -77,7 +83,7 @@ watch(
       </Table>
     </div>
 
-    <div class="shrink-0 p-1 flex gap-2">
+    <div class="flex gap-2 p-1 shrink-0">
       <Pagination
         v-slot="{ page }"
         :total="Math.ceil(((data?.length || 0) * 10) / itemsPerPage)"
