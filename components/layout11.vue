@@ -24,35 +24,39 @@
     <ColCover class="relative z-20 text-white gap-5">
       <Fix>
         <RowCover class="gap-3 text-2xl">
-          <Button class="w-fit">코스피</Button>
+          <Button class="w-fit">KOSPI</Button>
           <Button variant="outline" class="w-fit text-primary border-red-500">
-            코스피
-          </Button>
-          <Button variant="outline" class="w-fit text-primary border-red-500">
-            코스피
+            테크놀로지 서비스
           </Button>
         </RowCover>
       </Fix>
       <Fix>
         <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
           <ColCover>
-            <TypographySmall>Distance to arrival:</TypographySmall>
+            <p class="text-xs">가격 / 거래량:</p>
             <RowCover class="items-end">
-              <TypographyH3 class="text-primary">120</TypographyH3>
-              <TypographySmall>KM</TypographySmall>
+              <TypographyH3 class="text-primary">53,400</TypographyH3>
+              <p class="text-xs pl-1">KRW</p>
               <TypographyH3 class="font-thin px-2">/</TypographyH3>
-              <TypographyH3 class="text-primary">150</TypographyH3>
-              <TypographySmall>min.</TypographySmall>
+              <TypographyH3 class="text-primary">3.106</TypographyH3>
+              <p class="text-xs pl-1">M</p>
             </RowCover>
           </ColCover>
         </div>
       </Fix>
       <Fix>
-        <Card>
-          <ColCover>
-            <TypographyP>Distance to arrival:</TypographyP>
+        <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
+          <ColCover class="gap-1">
+            <p class="text-xs">변화 %:</p>
+            <RowCover class="items-end">
+              <TypographyH3>+0.75</TypographyH3> <TypographyP>%</TypographyP>
+            </RowCover>
+            <RowCover class="gap-2">
+              <div class="bg-primary px-2 py-1 rounded-md text-white">1.2%</div>
+              <div class="text-primary px-2 py-1 rounded-md bg-white">5.1%</div>
+            </RowCover>
           </ColCover>
-        </Card>
+        </div>
       </Fix>
     </ColCover>
   </Card>
