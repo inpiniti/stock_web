@@ -6,7 +6,11 @@
       10
     </div>
   </DevOnly>
-  <RowCover>
+  <RowCover class="items-center gap-5">
     <TypographyH3>Apple</TypographyH3>
+    <div class="shrink-0 relative">
+      <Input placeholder="Search" class="pl-10" />
+      <font-awesome class="absolute top-3 left-3" icon="magnifying-glass" />
+    </div>
   </RowCover>
 </template>
