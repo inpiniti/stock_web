@@ -8,8 +8,8 @@
   </DevOnly>
   <RowCover class="items-center gap-5 justify-between">
     <TypographyH3>Apple</TypographyH3>
-    <div class="shrink-0 relative w-full">
-      <Input placeholder="Search" class="pl-10 border-0" />
+    <div class="shrink-0 relative">
+      <Input placeholder="Search" class="pl-10 border-0 w-96" />
       <font-awesome class="absolute top-3 left-3" icon="magnifying-glass" />
     </div>
   </RowCover>

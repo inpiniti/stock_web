@@ -6,5 +6,5 @@
       22
     </div>
   </DevOnly>
-  <Card class="h-64 w-96"></Card>
+  <Card class="h-96 w-96"></Card>
 </template>
