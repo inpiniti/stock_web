@@ -6,10 +6,10 @@
       10
     </div>
   </DevOnly>
-  <RowCover class="items-center gap-5">
+  <RowCover class="items-center gap-5 justify-between">
     <TypographyH3>Apple</TypographyH3>
-    <div class="shrink-0 relative">
-      <Input placeholder="Search" class="pl-10" />
+    <div class="shrink-0 relative w-full">
+      <Input placeholder="Search" class="pl-10 border-0" />
       <font-awesome class="absolute top-3 left-3" icon="magnifying-glass" />
     </div>
   </RowCover>
