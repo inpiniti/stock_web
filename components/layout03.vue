@@ -1,7 +1,31 @@
+<script setup lang="ts">
+const sectorList = ref([
+  "비에너지 미네럴",
+  "리테일 트레이드",
+  "의료 기술",
+  "금융",
+  "디스트리뷰션 서비스",
+  "컨슈머 논-듀어러블즈",
+  "전자 기술",
+  "컨슈머 서비스",
+  "유틸리티",
+  "헬쓰 서비스",
+  "이송/배달",
+  "에너지 미네랄",
+  "테크놀로지 서비스",
+  "소비자 내구재",
+  "커뮤니케이션",
+  "프로세스 산업",
+  "제조업",
+  "코머셜 서비스",
+  "기타 (Miscellaneous)",
+  "인더스트리얼 서비스",
+]);
+</script>
 <template>
   <DevOnly>
     <div
-      class="absolute z-30 top-0 left-0 w-full h-full border-red-500 border text-red-500"
+      class="absolute z-30 top-0 left-0 w-full h-full border-red-500 border text-red-500 pointer-events-none"
     >
       03
     </div>
@@ -11,37 +35,15 @@
       <Fix>
         <RowCover class="items-end">
           <ColCover class="p-1">
-            <TypographyH3> Artificial </TypographyH3>
-            <TypographyH3> Intelligence </TypographyH3>
-            <TypographyH3> Model</TypographyH3>
+            <TypographyH3> AI Model </TypographyH3>
           </ColCover>
-          <RowCover class="gap-1 justify-end">
-            <TypographyMuted class="text-white">12 day</TypographyMuted>
-            <TypographyMuted class="text-red-300">09 month</TypographyMuted>
-          </RowCover>
         </RowCover>
       </Fix>
       <Full>
-        <RowCover class="gap-1 items-end">
-          <ColCover>
-            <Badge class="bg-white text-primary">Duration</Badge>
-            <Badge>Speed</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-            <Badge>Stops</Badge>
-          </ColCover>
-          <ColCover class="items-end">
-            <TypographyH4 class="whitespace-nowrap"> 1246 KM </TypographyH4>
-            <TypographySmall class="text-red-300 whitespace-nowrap">
-              Transsdjkf aventru
-            </TypographySmall>
-          </ColCover>
-        </RowCover>
+        <ColCover class="overflow-y-scroll">
+          <Badge class="bg-white text-primary">Duration</Badge>
+          <Badge v-for="sector in sectorList">{{ sector }}</Badge>
+        </ColCover>
       </Full>
     </ColCover>
   </Card>

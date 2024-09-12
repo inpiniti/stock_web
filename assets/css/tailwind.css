@@ -73,3 +73,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 웹킷 기반 브라우저에서 스크롤바 숨기기 */
+.overflow-y-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox에서 스크롤바 숨기기 */
+.overflow-y-scroll {
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+/* IE 및 Edge에서 스크롤바 숨기기 */
+.overflow-y-scroll {
+  -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */
+}
