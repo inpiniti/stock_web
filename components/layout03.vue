@@ -40,7 +40,7 @@ const sectorList = ref([
         </RowCover>
       </Fix>
       <Full>
-        <ColCover class="overflow-y-scroll">
+        <ColCover class="overflow-y-scroll gap-2">
           <Badge class="bg-white text-primary">Duration</Badge>
           <Badge v-for="sector in sectorList">{{ sector }}</Badge>
         </ColCover>

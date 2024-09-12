@@ -7,12 +7,12 @@
     </div>
   </DevOnly>
   <Card>
-    <RowCover class="p-1 gap-1">
-      <div>하</div>
-      <div>하</div>
-      <div>하</div>
-      <div>하</div>
-      <div>하</div>
+    <RowCover class="p-3 px-5 justify-between">
+      <font-awesome icon="microchip" />
+      <font-awesome icon="weight-scale" />
+      <font-awesome icon="truck" />
+      <font-awesome icon="industry" />
+      <font-awesome icon="memory" />
     </RowCover>
   </Card>
 </template>
