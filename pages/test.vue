@@ -1,11 +1,12 @@
 <script lang="ts" setup></script>
 <template>
-  <div class="bg-neutral-300 h-svh w-full flex p-5">
+  <div class="flex w-full p-5 bg-neutral-300 h-svh">
     <div
-      class="bg-neutral-100 h-full w-full flex rounded-3xl shadow-2xl p-5 gap-5"
+      class="flex w-full h-full gap-5 p-5 shadow-2xl bg-neutral-100 rounded-3xl"
     >
-      <div class="shrink-0 flex flex-col gap-5">
+      <div class="flex flex-col gap-5 shrink-0">
         <div class="">
+          <Button>test</Button>
           <Avatar class="border">
             <AvatarImage
               src="https://potatomap.com/fried-potatoes.png"
@@ -15,10 +16,10 @@
           </Avatar>
         </div>
         <div class="flex flex-col gap-3">
-          <Avatar class="bg-white relative border">
+          <Avatar class="relative bg-white border">
             <font-awesome class="text-lg" icon="earth-americas" />
             <div
-              class="absolute inset-0 bg-black opacity-30 pointer-events-none"
+              class="absolute inset-0 bg-black pointer-events-none opacity-30"
             ></div>
           </Avatar>
           <Avatar class="relative border">
@@ -33,7 +34,7 @@
               alt="kosdaq"
             />
             <div
-              class="absolute inset-0 bg-black opacity-30 pointer-events-none"
+              class="absolute inset-0 bg-black pointer-events-none opacity-30"
             ></div>
           </Avatar>
           <Avatar class="relative border">
@@ -42,13 +43,13 @@
               alt="nasdaq"
             />
             <div
-              class="absolute inset-0 bg-black opacity-30 pointer-events-none"
+              class="absolute inset-0 bg-black pointer-events-none opacity-30"
             ></div>
           </Avatar>
         </div>
         <div>c</div>
       </div>
-      <div class="shrink-0 flex flex-col gap-2 text-neutral-400 text-sm">
+      <div class="flex flex-col gap-2 text-sm shrink-0 text-neutral-400">
         <div class="text-black">비에너지 미네럴</div>
         <div>리테일 트레이드</div>
         <div>의료 기술</div>
@@ -71,9 +72,9 @@
         <div>컨슈머 논-듀어러블즈</div>
         <div>컨슈머 논-듀어러블즈</div>
       </div>
-      <div class="grow-0 flex flex-col w-full gap-5">
+      <div class="flex flex-col w-full gap-5 grow-0">
         <div class="shrink-0">
-          <div class="relative w-full max-w-sm items-center">
+          <div class="relative items-center w-full max-w-sm">
             <Input
               id="search"
               type="text"
@@ -81,15 +82,15 @@
               class="pl-10 border-0"
             />
             <span
-              class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
+              class="absolute inset-y-0 flex items-center justify-center px-2 start-0"
             >
               <font-awesome class="text-lg" icon="magnifying-glass" />
             </span>
           </div>
         </div>
-        <div class="grow-0 w-full h-full">
-          <Card class="h-full border-0 p-6 gap-6 flex flex-col">
-            <div class="flex w-full justify-between">
+        <div class="w-full h-full grow-0">
+          <Card class="flex flex-col h-full gap-6 p-6 border-0">
+            <div class="flex justify-between w-full">
               <div>
                 <div>Apple</div>
                 <div class="flex gap-2">
@@ -104,14 +105,14 @@
                 <CardDescription>Card Description</CardDescription>
               </div>
               <div class="flex gap-3">
-                <Card class="p-2 w-36 text-xs">
+                <Card class="p-2 text-xs w-36">
                   <p class="text-neutral-400">Top sales</p>
                   <p class="text-base font-bold">72</p>
                   <div>
                     <p>Mikasa</p>
                   </div>
                 </Card>
-                <Card class="p-2 w-36 text-xs bg-black text-white">
+                <Card class="p-2 text-xs text-white bg-black w-36">
                   <p class="text-neutral-400">Best deal</p>
                   <p class="text-base font-bold">$42,300</p>
                   <div>
@@ -134,11 +135,11 @@
                 </Card>
               </div>
             </div>
-            <div class="bg-neutral-100 w-full rounded-full flex p-1 gap-1">
-              <div class="p-1 bg-white rounded-full w-32 shadow-sm">abc</div>
-              <div class="p-1 bg-white rounded-full w-32">abc</div>
-              <div class="p-1 bg-white rounded-full w-32">abc</div>
-              <div class="p-1 bg-white rounded-full w-32">abc</div>
+            <div class="flex w-full gap-1 p-1 rounded-full bg-neutral-100">
+              <div class="w-32 p-1 bg-white rounded-full shadow-sm">abc</div>
+              <div class="w-32 p-1 bg-white rounded-full">abc</div>
+              <div class="w-32 p-1 bg-white rounded-full">abc</div>
+              <div class="w-32 p-1 bg-white rounded-full">abc</div>
             </div>
           </Card>
         </div>
