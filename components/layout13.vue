@@ -6,5 +6,16 @@
       13
     </div>
   </DevOnly>
-  <Card class="h-52"></Card>
+  <Card class="h-52 p-5">
+    <ColCover>
+      <Fix>
+        <TypographyH4>Shipment trends</TypographyH4>
+      </Fix>
+      <Full>
+        <Full>
+          <MyBarChart />
+        </Full>
+      </Full>
+    </ColCover>
+  </Card>
 </template>

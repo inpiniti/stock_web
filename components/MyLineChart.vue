@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Line :data="datacollection" :options="options" />
-  </div>
+  <Line :data="datacollection" :options="options" />
 </template>
 
 <script setup lang="ts">

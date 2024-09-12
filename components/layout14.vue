@@ -9,12 +9,12 @@
   <Card class="h-52 bg-primary p-5">
     <ColCover>
       <Fix>
-        <TypographyH3 class="text-white">Line Chart</TypographyH3>
+        <TypographyH4 class="text-white">Route efficiency</TypographyH4>
       </Fix>
       <Full>
         <RowCover>
           <Fix>
-            <TypographyH1 class="text-white">96%</TypographyH1>
+            <TypographyP class="text-white text-4xl font-bold">96%</TypographyP>
           </Fix>
           <Full>
             <MyLineChart />
@@ -22,7 +22,9 @@
         </RowCover>
       </Full>
       <Fix>
-        <p class="text-white">Send the best route to the driver's email</p>
+        <p class="text-white text-xs">
+          Send the best route to the driver's email
+        </p>
       </Fix>
     </ColCover>
   </Card>
