@@ -40,7 +40,7 @@ const data = ref([
       23
     </div>
   </DevOnly>
-  <Card class="p-5 h-96 w-96">
+  <Card class="p-5 h-52 w-96">
     <ColCover class="gap-2">
       <TypographyH4>주요 주식</TypographyH4>
       <ColCover class="gap-1 overflow-y-scroll">
