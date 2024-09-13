@@ -43,10 +43,10 @@ watch(
       12
     </div>
   </DevOnly>
-  <Card class="p-5 overflow-hidden h-96">
-    <ColCover class="gap-4">
+  <Card class="px-5 pt-5 overflow-hidden h-96">
+    <ColCover class="gap-2">
       <TypographyH4>Stock List</TypographyH4>
-      <ColCover class="gap-2 overflow-y-scroll">
+      <ColCover class="gap-1 overflow-y-scroll">
         <div
           class="p-2 text-xs rounded-lg bg-neutral-100"
           v-for="seoul in data"
