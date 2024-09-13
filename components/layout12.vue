@@ -38,27 +38,35 @@ watch(
 <template>
   <DevOnly>
     <div
-      class="absolute z-30 top-0 left-0 w-full h-full border-red-500 border text-red-500 pointer-events-none"
+      class="absolute top-0 left-0 z-30 w-full h-full text-red-500 border border-red-500 pointer-events-none"
     >
       12
     </div>
   </DevOnly>
-  <Card class="h-96 overflow-hidden">
-    <ColCover>
-      <Table>
-        <TableBody>
-          <TableRow v-for="seoul in data" :key="seoul.name">
-            <TableCell>
+  <Card class="p-5 overflow-hidden h-96">
+    <ColCover class="gap-4">
+      <TypographyH4>Stock List</TypographyH4>
+      <ColCover class="gap-2 overflow-y-scroll">
+        <div
+          class="p-2 text-xs rounded-lg bg-neutral-100"
+          v-for="seoul in data"
+        >
+          <RowCover class="gap-5">
+            <Fix class="flex items-center w-10 text-neutral-500">
               {{ seoul.name }}
-            </TableCell>
-            <TableCell>{{ seoul.description }}</TableCell>
-            <TableCell>{{ seoul.close }}</TableCell>
-            <TableCell>
-              {{ seoul.sector_tr }}
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+            </Fix>
+            <Fix class="flex items-center text-neutral-500">
+              {{ seoul.description }}
+            </Fix>
+            <Fix class="flex items-center">
+              <Badge>{{ seoul.sector_tr }}</Badge>
+            </Fix>
+            <Full class="flex items-center justify-end font-bold">
+              {{ seoul.close }}
+            </Full>
+          </RowCover>
+        </div>
+      </ColCover>
     </ColCover>
   </Card>
 </template>
