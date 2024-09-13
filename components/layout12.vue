@@ -48,7 +48,7 @@ watch(
       <TypographyH4>Stock List</TypographyH4>
       <ColCover class="gap-1 overflow-y-scroll">
         <div
-          class="p-2 text-xs rounded-lg bg-neutral-100"
+          class="p-2 px-5 text-xs rounded-lg bg-neutral-100"
           v-for="seoul in data"
         >
           <RowCover class="gap-5">
