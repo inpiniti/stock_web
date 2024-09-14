@@ -1,5 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const { market, module, isInterest, isLive, search, stockList } = useSelected();
+</script>
 <template>
+  <DevOnly>
+    <div class="w-full border-red-500 border text-red-500 pointer-events-none">
+      market: {{ market }}, module: {{ module }}, isInterest: {{ isInterest }},
+      isLive: {{ isLive }}, search: {{ search }}, stockList: {{ stockList }}
+    </div>
+  </DevOnly>
   <div class="p-2 w-svw h-svh bg-neutral-200">
     <RowCover class="gap-5 p-5 bg-neutral-100 rounded-3xl">
       <Fix>

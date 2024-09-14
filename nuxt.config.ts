@@ -41,6 +41,8 @@ export default defineNuxtConfig({
         "ellipsis-h",
         "circle-info",
         "earth-americas",
+        "spinner",
+        "circle-notch",
       ],
     },
   },

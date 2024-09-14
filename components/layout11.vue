@@ -1,3 +1,17 @@
+<script setup lang="ts">
+const { market } = useSelected();
+
+const markets = [
+  { value: "seoul", label: "KOSPI" },
+  { value: "kosdaq", label: "KOSDAQ" },
+  { value: "nasdaq", label: "NASDAQ" },
+];
+
+const selectedMarketLabel = computed(() => {
+  const selectedMarket = markets.find((m) => m.value === market.value);
+  return selectedMarket ? selectedMarket.label : "Unknown";
+});
+</script>
 <template>
   <DevOnly>
     <div
@@ -24,7 +38,7 @@
     <ColCover class="relative z-20 text-white gap-5">
       <Fix>
         <RowCover class="gap-3 text-2xl">
-          <Button class="w-fit">KOSPI</Button>
+          <Button class="w-fit">{{ selectedMarketLabel }}</Button>
           <Button variant="outline" class="w-fit text-primary border-red-500">
             테크놀로지 서비스
           </Button>
