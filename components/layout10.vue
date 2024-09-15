@@ -1,3 +1,6 @@
+<script setup lang="ts">
+const { live } = useLive();
+</script>
 <template>
   <DevOnly>
     <div
@@ -7,7 +10,10 @@
     </div>
   </DevOnly>
   <RowCover class="items-center gap-5 justify-between">
-    <TypographyH3>Apple</TypographyH3>
+    <RowCover class="items-center gap-3">
+      <Badge>{{ live.name }}</Badge>
+      <TypographyH3>{{ live.logoid }} ({{ live.description }})</TypographyH3>
+    </RowCover>
     <div class="shrink-0 relative">
       <Input placeholder="Search" class="pl-10 border-0 w-96" />
       <font-awesome class="absolute top-3 left-3" icon="magnifying-glass" />
