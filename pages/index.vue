@@ -1,12 +1,21 @@
 <script lang="ts" setup>
-const { market, sector, isInterest, isLive, search, stockList } = useSelected();
+const { market, sector, sector_kr, isInterest, isLive, search, stockList } =
+  useSelected();
+const { live } = useLive();
 </script>
 <template>
   <DevOnly>
     <div class="w-full border-red-500 border text-red-500 pointer-events-none">
-      [useSelected] market: {{ market }}, sector: {{ sector }}, isInterest:
-      {{ isInterest }}, isLive: {{ isLive }}, search: {{ search }}, stockList:
+      [useSelected] market: {{ market }}, sector: {{ sector }}, sector_kr:
+      {{ sector_kr }}, isInterest: {{ isInterest }}, isLive: {{ isLive }},
+      search: {{ search }}, stockList:
       {{ stockList }}
+    </div>
+    <div class="w-full border-red-500 border text-red-500 pointer-events-none">
+      [live]
+      <div v-for="(value, key) in live" :key="key">
+        <span class="font-bold">{{ key }}:</span> <span>{{ value }}</span>
+      </div>
     </div>
   </DevOnly>
   <div class="p-2 w-svw h-svh bg-neutral-200">

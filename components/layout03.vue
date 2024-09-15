@@ -1,32 +1,6 @@
 <script setup lang="ts">
 const { sector } = useSelected();
 const { status, getModel } = useAiModel();
-const sectorList = ref({
-  all: "전체",
-  commercialServices: "코머셜 서비스",
-  communications: "커뮤니케이션",
-  consumerDurables: "소비자 내구재",
-  consumerNonDurables: "컨슈머 논-듀어러블즈",
-  consumerServices: "컨슈머 서비스",
-  distributionServices: "디스트리뷰션 서비스",
-  electronicTechnology: "전자 기술",
-  energyMinerals: "에너지 미네랄",
-  finance: "금융",
-  healthServices: "헬쓰 서비스",
-  healthTechnology: "의료 기술",
-  industrialServices: "인더스트리얼 서비스",
-  kosdaq: "코스닥",
-  miscellaneous: "기타 (Miscellaneous)",
-  nasdaq: "나스닥",
-  nonEnergyMinerals: "비에너지 미네랄",
-  processIndustries: "프로세스 산업",
-  producerManufacturing: "제조업",
-  retailTrade: "리테일 트레이드",
-  seoul: "서울",
-  technologyServices: "테크놀로지 서비스",
-  transportation: "이송/배달",
-  utilities: "유틸리티",
-});
 
 const selectSector = (newSector: string) => {
   sector.value = newSector;

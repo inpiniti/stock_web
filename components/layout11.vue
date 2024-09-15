@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { market } = useSelected();
+const { market, sector_kr } = useSelected();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -40,7 +40,7 @@ const selectedMarketLabel = computed(() => {
         <RowCover class="gap-3 text-2xl">
           <Button class="w-fit">{{ selectedMarketLabel }}</Button>
           <Button variant="outline" class="w-fit text-primary border-red-500">
-            테크놀로지 서비스
+            {{ sector_kr }}
           </Button>
         </RowCover>
       </Fix>

@@ -6,9 +6,14 @@ export const useSelected = () => {
   const search = useState("search", () => "");
   const stockList = useState("stockList", () => []);
 
+  const sector_kr = computed(() => {
+    return sectorList[sector.value];
+  });
+
   return {
     market,
     sector,
+    sector_kr,
     isInterest,
     isLive,
     search,

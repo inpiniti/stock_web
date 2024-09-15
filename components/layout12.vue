@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { lives } = useLive();
+const { live, lives } = useLive();
+const selectLive = (newLive: ILive) => {
+  live.value = newLive;
+};
 </script>
 <template>
   <DevOnly>
@@ -14,8 +17,10 @@ const { lives } = useLive();
       <TypographyH4>Stock List</TypographyH4>
       <ColCover class="gap-1 overflow-y-scroll">
         <div
-          class="p-2 px-5 text-xs rounded-lg bg-neutral-100"
+          class="p-2 px-5 text-xs rounded-lg bg-neutral-100 cursor-pointer hover:bg-neutral-50"
           v-for="live in lives"
+          :key="live.name"
+          @click="selectLive(live)"
         >
           <RowCover class="gap-5">
             <Fix class="flex items-center w-10 text-neutral-500">
