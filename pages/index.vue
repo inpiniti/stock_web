@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-const { market, module, isInterest, isLive, search, stockList } = useSelected();
+const { market, sector, isInterest, isLive, search, stockList } = useSelected();
 </script>
 <template>
   <DevOnly>
     <div class="w-full border-red-500 border text-red-500 pointer-events-none">
-      market: {{ market }}, module: {{ module }}, isInterest: {{ isInterest }},
-      isLive: {{ isLive }}, search: {{ search }}, stockList: {{ stockList }}
+      [useSelected] market: {{ market }}, sector: {{ sector }}, isInterest:
+      {{ isInterest }}, isLive: {{ isLive }}, search: {{ search }}, stockList:
+      {{ stockList }}
     </div>
   </DevOnly>
   <div class="p-2 w-svw h-svh bg-neutral-200">

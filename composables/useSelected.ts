@@ -1,6 +1,6 @@
 export const useSelected = () => {
   const market = useState("market", () => "seoul");
-  const module = useState("module", () => "all");
+  const sector = useState("sector", () => "all");
   const isInterest = useState("isInterest", () => false);
   const isLive = useState("isLive", () => true);
   const search = useState("search", () => "");
@@ -8,7 +8,7 @@ export const useSelected = () => {
 
   return {
     market,
-    module,
+    sector,
     isInterest,
     isLive,
     search,
