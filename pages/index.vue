@@ -1,23 +1,6 @@
-<script lang="ts" setup>
-const { market, sector, sector_kr, isInterest, isLive, search, stockList } =
-  useSelected();
-const { live } = useLive();
-</script>
+<script lang="ts" setup></script>
 <template>
-  <DevOnly>
-    <div class="w-full border-red-500 border text-red-500 pointer-events-none">
-      [useSelected] market: {{ market }}, sector: {{ sector }}, sector_kr:
-      {{ sector_kr }}, isInterest: {{ isInterest }}, isLive: {{ isLive }},
-      search: {{ search }}, stockList:
-      {{ stockList }}
-    </div>
-    <div class="w-full border-red-500 border text-red-500 pointer-events-none">
-      [live]
-      <div v-for="(value, key) in live" :key="key">
-        <span class="font-bold">{{ key }}:</span> <span>{{ value }}</span>
-      </div>
-    </div>
-  </DevOnly>
+  <Dataview />
   <div class="p-2 w-svw h-svh bg-neutral-200">
     <RowCover class="gap-5 p-5 bg-neutral-100 rounded-3xl">
       <Fix>
