@@ -1,5 +1,7 @@
 <script setup lang="ts">
+const { live } = useLive();
 const { market, sector_kr } = useSelected();
+const { predicts } = useAiModel();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -45,32 +47,98 @@ const selectedMarketLabel = computed(() => {
         </RowCover>
       </Fix>
       <Fix>
-        <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
-          <ColCover>
-            <p class="text-xs">가격 / 거래량:</p>
-            <RowCover class="items-end">
-              <TypographyH3 class="text-primary">53,400</TypographyH3>
-              <p class="text-xs pl-1">KRW</p>
-              <TypographyH3 class="font-thin px-2">/</TypographyH3>
-              <TypographyH3 class="text-primary">3.106</TypographyH3>
-              <p class="text-xs pl-1">M</p>
-            </RowCover>
-          </ColCover>
-        </div>
+        <RowCover class="items-end gap-2">
+          <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
+            <ColCover>
+              <p class="text-xs">가격 / 거래 변화량</p>
+              <RowCover class="items-end">
+                <TypographyH3 class="text-primary">
+                  {{ live.close }}
+                </TypographyH3>
+                <p class="text-xs pl-1">{{ live.currency }}</p>
+                <TypographyH3 class="font-thin px-2">/</TypographyH3>
+                <TypographyH3 class="text-primary">
+                  {{ live.volume_change?.toFixed(2) }}
+                </TypographyH3>
+                <p class="text-xs pl-1">%</p>
+              </RowCover>
+            </ColCover>
+          </div>
+          <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
+            <ColCover class="gap-1">
+              <p class="text-xs">주간 변화량</p>
+              <RowCover class="gap-2">
+                <div class="bg-primary px-2 py-1 rounded-md text-white">
+                  {{ live?.perf_w?.toFixed(2) }} %
+                </div>
+              </RowCover>
+            </ColCover>
+          </div>
+          <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
+            <ColCover class="gap-1">
+              <p class="text-xs">순이익율</p>
+              <RowCover class="gap-2">
+                <div class="bg-primary px-2 py-1 rounded-md text-white">
+                  {{ live?.net_margin_ttm?.toFixed(2) }} %
+                </div>
+              </RowCover>
+            </ColCover>
+          </div>
+          <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
+            <ColCover class="gap-1">
+              <p class="text-xs">전체추천, M&A추천, 기타추천:</p>
+              <RowCover class="gap-2">
+                <div class="bg-primary px-2 py-1 rounded-md text-white">
+                  {{ live.recommend_all?.toFixed(2) }}
+                </div>
+                <div class="text-primary px-2 py-1 rounded-md bg-white">
+                  {{ live.recommend_m_a?.toFixed(2) }}
+                </div>
+                <div class="text-primary px-2 py-1 rounded-md bg-white">
+                  {{ live.recommend_other?.toFixed(2) }}
+                </div>
+              </RowCover>
+            </ColCover>
+          </div>
+        </RowCover>
       </Fix>
       <Fix>
-        <div class="backdrop-blur-xl rounded-lg p-3 w-fit text-black">
-          <ColCover class="gap-1">
-            <p class="text-xs">변화 %:</p>
-            <RowCover class="items-end">
-              <TypographyH3>+0.75</TypographyH3> <TypographyP>%</TypographyP>
-            </RowCover>
-            <RowCover class="gap-2">
-              <div class="bg-primary px-2 py-1 rounded-md text-white">1.2%</div>
-              <div class="text-primary px-2 py-1 rounded-md bg-white">5.1%</div>
-            </RowCover>
-          </ColCover>
-        </div>
+        <RowCover class="gap-2">
+          <div
+            class="backdrop-blur-xl rounded-lg p-3 w-fit text-black"
+            v-for="(predict, index) in [...predicts].reverse()"
+          >
+            <ColCover class="gap-1">
+              <p class="text-xs">
+                {{
+                  predict.ago == "h1"
+                    ? "1시간"
+                    : predict.ago == "d1"
+                    ? "1일"
+                    : predict.ago == "d2"
+                    ? "2일"
+                    : predict.ago == "d3"
+                    ? "3일"
+                    : predict.ago == "d4"
+                    ? "4일"
+                    : predict.ago == "d5"
+                    ? "5일"
+                    : predict.ago == "d6"
+                    ? "6일"
+                    : predict.ago == "w1"
+                    ? "일주일"
+                    : ""
+                }}
+                뒤 상승율 %:
+              </p>
+              <RowCover class="items-end">
+                <TypographyP>
+                  {{ (predict.predict * 100).toFixed(2) }}%
+                </TypographyP>
+              </RowCover>
+            </ColCover>
+          </div>
+        </RowCover>
       </Fix>
     </ColCover>
   </Card>
