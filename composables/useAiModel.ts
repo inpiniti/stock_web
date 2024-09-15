@@ -124,7 +124,21 @@ export const useAiModel = () => {
     });
 
     const result = await Promise.all(predictions);
-    predicts.value = result;
+    predicts.value = result.sort(sortByAgo);
+  };
+
+  const timeUnits: any = {
+    h: 1,
+    d: 24,
+    w: 24 * 7,
+  };
+
+  const sortByAgo = (a: { ago: string }, b: { ago: string }) => {
+    const unitA = a.ago.slice(-1);
+    const unitB = b.ago.slice(-1);
+    const valueA = parseInt(a.ago) * timeUnits[unitA];
+    const valueB = parseInt(b.ago) * timeUnits[unitB];
+    return valueA - valueB;
   };
 
   return {

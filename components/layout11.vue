@@ -106,7 +106,7 @@ const selectedMarketLabel = computed(() => {
         <RowCover class="gap-2">
           <div
             class="backdrop-blur-xl rounded-lg p-3 w-fit text-black"
-            v-for="(predict, index) in [...predicts].reverse()"
+            v-for="(predict, index) in predicts"
           >
             <ColCover class="gap-1">
               <p class="text-xs">
