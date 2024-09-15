@@ -1,10 +1,12 @@
 <script setup lang="ts">
 const { sector } = useSelected();
-const { status, getModel } = useAiModel();
+const { live } = useLive();
+const { status, getModel, predict } = useAiModel();
 
-const selectSector = (newSector: string) => {
+const selectSector = async (newSector: string) => {
   sector.value = newSector;
-  getModel(sector.value);
+  await getModel(sector.value);
+  predict(live.value);
 };
 </script>
 <template>

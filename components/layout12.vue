@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const { live, lives } = useLive();
+const { predict } = useAiModel();
 const selectLive = (newLive: ILive) => {
   live.value = newLive;
+  predict(live.value);
 };
 </script>
 <template>

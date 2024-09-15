@@ -2,6 +2,7 @@
 const { market, sector, sector_kr, isInterest, isLive, search, stockList } =
   useSelected();
 const { live } = useLive();
+const { predicts } = useAiModel();
 </script>
 <template>
   <DevOnly>
@@ -27,6 +28,18 @@ const { live } = useLive();
             <div v-for="(value, key) in live" :key="key">
               <span class="font-bold">{{ key }}:</span> <span>{{ value }}</span>
             </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem key="predicts" value="predicts">
+          <AccordionTrigger> predicts </AccordionTrigger>
+          <AccordionContent>
+            <div v-if="predicts && predicts.length > 0">
+              <div v-for="(predict, index) in predicts" :key="index">
+                <span class="font-bold">Prediction {{ predict.ago }}:</span>
+                <span>{{ (predict.predict * 100).toFixed(2) }}%</span>
+              </div>
+            </div>
+            <div v-else>No predictions available.</div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

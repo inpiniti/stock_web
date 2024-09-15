@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.1",
+    "@tensorflow/tfjs": "^4.21.0",
     "@vueuse/core": "^10.11.0",
     "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
