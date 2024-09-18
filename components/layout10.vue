@@ -11,7 +11,13 @@ const { live } = useLive();
   </DevOnly>
   <RowCover class="items-center gap-5 justify-between">
     <RowCover class="items-center gap-3">
-      <Badge>{{ live.name }}</Badge>
+      <Avatar class="border">
+        <AvatarImage
+          :src="`https://s3-symbol-logo.tradingview.com/${live.logoid}--big.svg`"
+          alt="@radix-vue"
+        />
+        <AvatarFallback>{{ live.description?.slice(0, 2) }}</AvatarFallback>
+      </Avatar>
       <TypographyH3>{{ live.logoid }} ({{ live.description }})</TypographyH3>
     </RowCover>
     <div class="shrink-0 relative">
