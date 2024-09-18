@@ -111,12 +111,6 @@ export const useAiModel = () => {
       const tfModel = await loadModel(aiModel);
       const modelPrediction = tfModel.predict(inputTensorData) as tf.Tensor;
       const predictionArray = modelPrediction.dataSync(); // 예측 결과를 배열로 변환
-      console.log("Prediction array:", predictionArray);
-
-      // 예측 결과를 0 또는 1로 변환
-      const binaryPrediction = predictionArray.map((value: number) =>
-        value > 0.5 ? 1 : 0
-      );
       return {
         ago: aiModel.ago,
         predict: predictionArray[0],
@@ -125,6 +119,7 @@ export const useAiModel = () => {
 
     const result = await Promise.all(predictions);
     predicts.value = result.sort(sortByAgo);
+    return predicts.value;
   };
 
   const timeUnits: any = {

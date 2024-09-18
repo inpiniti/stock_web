@@ -98,4 +98,5 @@ export interface ILive {
   stoch_k: number; // 스토캐스틱 K
   stoch_d: number; // 스토캐스틱 D
   created_at: string; // 생성일시 (타임스탬프)
+  predict?: any; // 예측 결과
 }
