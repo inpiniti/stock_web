@@ -11,20 +11,24 @@ const selectLive = (newLive: ILive) => {
 const allPredict = async () => {
   status.value = "pending";
   console.log("allPredict");
-  const updatedLives = await Promise.all(
-    lives.value.map(async (live) => {
-      console.log(live.name);
-      const prediction = await predict(live);
-      return {
-        ...live,
-        predict: prediction,
-      };
-    })
-  );
 
-  // lives.value를 업데이트합니다.
-  lives.value = updatedLives;
-  status.value = "success";
+  // 0.1초 후에 계산을 시작합니다.
+  setTimeout(async () => {
+    const updatedLives = await Promise.all(
+      lives.value.map(async (live) => {
+        console.log(live.name);
+        const prediction = await predict(live);
+        return {
+          ...live,
+          predict: prediction,
+        };
+      })
+    );
+
+    // lives.value를 업데이트합니다.
+    lives.value = updatedLives;
+    status.value = "success";
+  }, 100); // 100ms 지연
 };
 </script>
 <template>
@@ -44,7 +48,10 @@ const allPredict = async () => {
             <p v-if="status == 'pending'" class="text-center w-full">
               <font-awesome icon="circle-notch" spin />
             </p>
-            <p v-else>전종목 예측</p>
+            <p v-else>
+              전종목 예측 (전종목 예측은 브라우져의 자원을 많이 소모하는
+              작업입니다. 주의해주세요.)
+            </p>
           </Button>
         </RowCover>
       </Fix>
@@ -78,7 +85,7 @@ const allPredict = async () => {
                 <Badge>{{ live.sector_tr }}</Badge>
               </Fix>
               <Fix class="flex items-center" v-for="item in live?.predict">
-                <Badge>{{ (item.predict * 100).toFixed(2) }}%</Badge>
+                {{ (item.predict * 100).toFixed(0) }}%
               </Fix>
               <Full class="flex items-center justify-end font-bold">
                 {{ live.close }}
