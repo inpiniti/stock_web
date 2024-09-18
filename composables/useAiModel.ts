@@ -49,15 +49,41 @@ export const useAiModel = () => {
   const loadModel = async (modelData: IModel) => {
     const modelJson = modelData.model;
 
+    console.log("modelData.weights", modelData.weights);
+
     // modelData.weights도 JSON 형식으로 가정하고 처리합니다.
     const weightsArray = Array.isArray(modelData.weights)
-      ? modelData.weights.map((weight: any) => new Float32Array(weight))
+      ? modelData.weights.map(
+          (weight: any) => new Float32Array(Object.values(weight))
+        )
       : [];
+
+    console.log("weightsArray", weightsArray);
+
+    // weightSpecs 생성
+    const weightSpecs = weightsArray.map((weight, index) => ({
+      name: `weight_${index}`,
+      shape: [weight.length],
+      dtype: "float32",
+    }));
+
+    // weightData 생성
+    const weightData = new Float32Array(weightsArray.flat());
 
     // 모델을 메모리에서 로드합니다.
     const model = await tf.loadLayersModel(
-      tf.io.fromMemory({ modelTopology: modelJson, weightSpecs: weightsArray })
+      tf.io.fromMemory({ modelTopology: modelJson, weightSpecs, weightData })
     );
+
+    // 모델의 요약 정보를 출력합니다.
+    model.summary();
+
+    // 모델의 가중치를 출력합니다.
+    const weights = model.getWeights();
+    weights.forEach((weight, index) => {
+      console.log(`Weight1 ${index}:`, weight.dataSync());
+    });
+
     return model;
   };
 
@@ -96,6 +122,8 @@ export const useAiModel = () => {
       return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
     }) as number[];
 
+    console.log("Preprocessed feature:", feature); // 전처리된 데이터를 출력하여 확인
+
     return tf.tensor2d([feature]);
   };
 
@@ -109,8 +137,10 @@ export const useAiModel = () => {
 
     const predictions = models.value.map(async (aiModel: IModel) => {
       const tfModel = await loadModel(aiModel);
+
       const modelPrediction = tfModel.predict(inputTensorData) as tf.Tensor;
       const predictionArray = modelPrediction.dataSync(); // 예측 결과를 배열로 변환
+      console.log("Prediction array:", predictionArray); // 예측 결과를 출력하여 확인
       return {
         ago: aiModel.ago,
         predict: predictionArray[0],
