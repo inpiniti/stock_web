@@ -6,12 +6,10 @@ const { status, getModel, predict } = useAiModel();
 const selectSector = async (newSector: string) => {
   sector.value = newSector;
   await getModel(sector.value);
+
+  console.log("live.value", live.value);
   predict(live.value);
 };
-
-onMounted(() => {
-  selectSector(sector.value);
-});
 </script>
 <template>
   <DevOnly>

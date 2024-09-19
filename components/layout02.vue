@@ -24,10 +24,6 @@ const fetchMarketData = (newMarket: string) => {
     console.error(`No fetch function found for market: ${newMarket}`);
   }
 };
-
-onMounted(() => {
-  fetchMarketData(market.value);
-});
 </script>
 <template>
   <DevOnly>
