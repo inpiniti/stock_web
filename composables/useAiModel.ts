@@ -68,7 +68,12 @@ export const useAiModel = () => {
     }));
 
     // weightData 생성
-    const weightData = new Float32Array(weightsArray.flat());
+    // weightsArray.flat()의 결과를 단일 숫자 배열로 변환
+    const flatWeights = weightsArray
+      .flat()
+      .reduce((acc: number[], val) => [...acc, ...Array.from(val)], []);
+    // 수정된 배열을 사용하여 Float32Array 생성
+    const weightData = new Float32Array(flatWeights);
 
     // 모델을 메모리에서 로드합니다.
     const model = await tf.loadLayersModel(
