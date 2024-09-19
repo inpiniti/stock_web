@@ -8,16 +8,20 @@ const selectSector = async (newSector: string) => {
   await getModel(sector.value);
   predict(live.value);
 };
+
+onMounted(() => {
+  selectSector(sector.value);
+});
 </script>
 <template>
   <DevOnly>
     <div
-      class="absolute z-30 top-0 left-0 w-full h-full border-red-500 border text-red-500 pointer-events-none"
+      class="absolute top-0 left-0 z-30 w-full h-full text-red-500 border border-red-500 pointer-events-none"
     >
       03
     </div>
   </DevOnly>
-  <Card class="bg-primary text-white p-2 h-full">
+  <Card class="h-full p-2 text-white bg-primary">
     <ColCover>
       <Fix>
         <RowCover class="items-end">
@@ -27,7 +31,7 @@ const selectSector = async (newSector: string) => {
         </RowCover>
       </Fix>
       <Full>
-        <ColCover class="overflow-y-scroll gap-2">
+        <ColCover class="gap-2 overflow-y-scroll">
           <Badge
             class="cursor-pointer hover:bg-white hover:text-primary"
             :class="sector == key ? 'bg-white text-primary' : ''"
@@ -37,7 +41,7 @@ const selectSector = async (newSector: string) => {
           >
             <p
               v-if="status == 'pending' && sector == key"
-              class="text-center w-full"
+              class="w-full text-center"
             >
               <font-awesome icon="circle-notch" spin />
             </p>

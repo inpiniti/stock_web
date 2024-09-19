@@ -24,11 +24,15 @@ const fetchMarketData = (newMarket: string) => {
     console.error(`No fetch function found for market: ${newMarket}`);
   }
 };
+
+onMounted(() => {
+  fetchMarketData(market.value);
+});
 </script>
 <template>
   <DevOnly>
     <div
-      class="absolute z-30 top-0 left-0 w-full h-full border-red-500 border text-red-500 pointer-events-none"
+      class="absolute top-0 left-0 z-30 w-full h-full text-red-500 border border-red-500 pointer-events-none"
     >
       02
     </div>
@@ -45,7 +49,7 @@ const fetchMarketData = (newMarket: string) => {
       >
         <p
           v-if="status == 'pending' && market == item.value"
-          class="text-center w-full"
+          class="w-full text-center"
         >
           <font-awesome icon="circle-notch" spin />
         </p>
