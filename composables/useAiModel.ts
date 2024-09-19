@@ -51,33 +51,35 @@ export const useAiModel = () => {
 
     console.log("modelData.weights", modelData.weights);
 
-    // modelData.weights도 JSON 형식으로 가정하고 처리합니다.
-    const weightsArray = Array.isArray(modelData.weights)
-      ? modelData.weights.map(
-          (weight: any) => new Float32Array(Object.values(weight))
-        )
-      : [];
+    // 각 가중치를 Tensor로 변환 (여기서는 예시로 각 가중치의 shape와 dtype을 알고 있다고 가정)
+    // 실제로는 modelWeights.map에서 얻은 weightSpecs 정보를 사용해야 합니다.
+    const tensors = JSON.parse(JSON.stringify(modelData.weights)).map(
+      (arr: any) => {
+        // Assuming arr is an object with numeric values, but could also have non-numeric properties
+        const numericValues = Object.values(arr).filter(
+          (value) => typeof value === "number"
+        ) as number[];
+        return tf.tensor(numericValues);
+      }
+    );
 
-    console.log("weightsArray", weightsArray);
-
-    // weightSpecs 생성
-    const weightSpecs = weightsArray.map((weight, index) => ({
-      name: `weight_${index}`,
-      shape: [weight.length],
-      dtype: "float32",
-    }));
-
-    // weightData 생성
-    // weightsArray.flat()의 결과를 단일 숫자 배열로 변환
-    const flatWeights = weightsArray
-      .flat()
-      .reduce((acc: number[], val) => [...acc, ...Array.from(val)], []);
-    // 수정된 배열을 사용하여 Float32Array 생성
-    const weightData = new Float32Array(flatWeights);
+    // Tensor 배열을 ArrayBuffer로 변환
+    const weightData = await Promise.all(
+      tensors.map((t: any) => t.data())
+    ).then((data) => {
+      // 모든 Tensor 데이터를 하나의 Float32Array에 병합
+      let merged = new Float32Array(
+        data.reduce((acc, val) => acc.concat(Array.from(val)), [])
+      );
+      return merged.buffer;
+    });
 
     // 모델을 메모리에서 로드합니다.
     const model = await tf.loadLayersModel(
-      tf.io.fromMemory({ modelTopology: modelJson, weightSpecs, weightData })
+      tf.io.fromMemory({
+        modelTopology: modelJson,
+        weightData: weightData,
+      })
     );
 
     // 모델의 요약 정보를 출력합니다.
@@ -86,7 +88,7 @@ export const useAiModel = () => {
     // 모델의 가중치를 출력합니다.
     const weights = model.getWeights();
     weights.forEach((weight, index) => {
-      console.log(`Weight1 ${index}:`, weight.dataSync());
+      console.log(`Weight ${index}:`, weight.dataSync());
     });
 
     return model;
@@ -127,8 +129,6 @@ export const useAiModel = () => {
       return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
     }) as number[];
 
-    console.log("Preprocessed feature:", feature); // 전처리된 데이터를 출력하여 확인
-
     return tf.tensor2d([feature]);
   };
 
@@ -140,17 +140,17 @@ export const useAiModel = () => {
     // 입력 데이터를 전처리합니다.
     const inputTensorData = preprocess(inputData);
 
-    const predictions = models.value.map(async (aiModel: IModel) => {
-      const tfModel = await loadModel(aiModel);
-
-      const modelPrediction = tfModel.predict(inputTensorData) as tf.Tensor;
-      const predictionArray = modelPrediction.dataSync(); // 예측 결과를 배열로 변환
-      console.log("Prediction array:", predictionArray); // 예측 결과를 출력하여 확인
-      return {
-        ago: aiModel.ago,
-        predict: predictionArray[0],
-      };
-    });
+    const predictions = models.value
+      .slice(0, 1)
+      .map(async (aiModel: IModel) => {
+        const tfModel = await loadModel(aiModel);
+        const modelPrediction = tfModel.predict(inputTensorData) as tf.Tensor;
+        const predictionArray = modelPrediction.dataSync(); // 예측 결과를 배열로 변환
+        return {
+          ago: aiModel.ago,
+          predict: predictionArray[0],
+        };
+      });
 
     const result = await Promise.all(predictions);
     predicts.value = result.sort(sortByAgo);

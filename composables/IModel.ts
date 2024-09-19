@@ -1,7 +1,7 @@
 export interface IModel {
   model_id: number; // 모델 ID
   model: string; // 모델 데이터 (bytea 형식)
-  weights: string; // 가중치 데이터 (bytea 형식)
+  weights: any; // 가중치 데이터 (bytea 형식)
   market_sector: string; // 시장 섹터
   ago: string; // 시간 경과
 }
