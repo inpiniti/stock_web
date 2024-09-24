@@ -5,25 +5,29 @@ const status = ref("success");
 const { predict } = useAiModel();
 const selectLive = (newLive: ILive) => {
   live.value = newLive;
-  predict(live.value);
+  predict([live.value]);
 };
 
+// 전종목 예측
 const allPredict = async () => {
   status.value = "pending";
-  console.log("allPredict");
 
   // 0.1초 후에 계산을 시작합니다.
   setTimeout(async () => {
-    const updatedLives = await Promise.all(
-      lives.value.map(async (live) => {
-        console.log(live.name);
-        const prediction = await predict(live);
-        return {
-          ...live,
-          predict: prediction,
-        };
-      })
-    );
+    const inputDataArray = lives.value.map((live) => live);
+    const predictions = await predict(inputDataArray);
+    console.log("predictions", predictions);
+
+    const updatedLives = lives.value.map((live, index) => {
+      const prediction = predictions.map((p) => ({
+        ago: p.ago,
+        predict: p.predict[index],
+      }));
+      return {
+        ...live,
+        predict: prediction,
+      };
+    });
 
     // lives.value를 업데이트합니다.
     lives.value = updatedLives;

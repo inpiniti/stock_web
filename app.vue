@@ -5,7 +5,7 @@ const { getModel, predict } = useAiModel();
 
 onMounted(async () => {
   await Promise.all([getSeoul(), getModel(sector.value)]);
-  predict(live.value);
+  predict([live.value]);
 });
 </script>
 <template>

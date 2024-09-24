@@ -8,7 +8,7 @@ const selectSector = async (newSector: string) => {
   await getModel(sector.value);
 
   console.log("live.value", live.value);
-  predict(live.value);
+  predict([live.value]);
 };
 </script>
 <template>

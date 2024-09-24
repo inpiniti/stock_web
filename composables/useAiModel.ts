@@ -1,6 +1,8 @@
 import * as tf from "@tensorflow/tfjs";
 
 export const useAiModel = () => {
+  const { live, lives } = useLive();
+
   const models = useState<IModel[]>("model", () => []);
   const predicts = useState<any[]>("predicts", () => []);
   const status = ref("success");
@@ -81,50 +83,6 @@ export const useAiModel = () => {
     model.setWeights(weightTensors);
 
     return model;
-
-    // console.log("modelData.weights", modelData.weights);
-
-    // // 각 가중치를 Tensor로 변환 (여기서는 예시로 각 가중치의 shape와 dtype을 알고 있다고 가정)
-    // // 실제로는 modelWeights.map에서 얻은 weightSpecs 정보를 사용해야 합니다.
-    // const tensors = JSON.parse(JSON.stringify(modelData.weights)).map(
-    //   (arr: any) => {
-    //     // Assuming arr is an object with numeric values, but could also have non-numeric properties
-    //     const numericValues = Object.values(arr).filter(
-    //       (value) => typeof value === "number"
-    //     ) as number[];
-    //     return tf.tensor(numericValues);
-    //   }
-    // );
-
-    // // Tensor 배열을 ArrayBuffer로 변환
-    // const weightData = await Promise.all(
-    //   tensors.map((t: any) => t.data())
-    // ).then((data) => {
-    //   // 모든 Tensor 데이터를 하나의 Float32Array에 병합
-    //   let merged = new Float32Array(
-    //     data.reduce((acc, val) => acc.concat(Array.from(val)), [])
-    //   );
-    //   return merged.buffer;
-    // });
-
-    // // 모델을 메모리에서 로드합니다.
-    // const model = await tf.loadLayersModel(
-    //   tf.io.fromMemory({
-    //     modelTopology: modelJson,
-    //     weightData: weightData,
-    //   })
-    // );
-
-    // // 모델의 요약 정보를 출력합니다.
-    // model.summary();
-
-    // // 모델의 가중치를 출력합니다.
-    // const weights = model.getWeights();
-    // weights.forEach((weight, index) => {
-    //   console.log(`Weight ${index}:`, weight.dataSync());
-    // });
-
-    // return model;
   };
 
   const preprocess = (data: any) => {
@@ -165,35 +123,26 @@ export const useAiModel = () => {
     return tf.tensor2d([feature]);
   };
 
-  const predict = async (inputData: any) => {
+  const predict = async (inputDataArray: any[]) => {
     if (models.value.length === 0) {
       throw new Error("No model found for the specified sector");
     }
 
     // 입력 데이터를 전처리합니다.
-    const inputTensorData = preprocess(inputData);
+    const inputTensorDataArray = inputDataArray.map(preprocess);
+    const inputTensorData = tf.concat(inputTensorDataArray, 0);
 
     const predictions = models.value.map(async (aiModel: IModel) => {
+      // 모델을 로드합니다.
       const tfModel = await loadModel(aiModel);
 
-      console.log("model summary:");
-      tfModel.summary();
-
-      inputTensorData.print();
-
+      // 모델을 사용해 입력 데이터를 예측합니다.
       const modelPrediction = tfModel.predict(inputTensorData) as tf.Tensor;
       const predictionArray = modelPrediction.dataSync(); // 예측 결과를 배열로 변환
 
-      // // 모델의 가중치를 출력합니다.
-      const weights = tfModel.getWeights();
-      weights.forEach((weight, index) => {
-        console.log(`Weight ${index}:`, weight.dataSync());
-      });
-      console.log("predictionArray", predictionArray);
-
       return {
         ago: aiModel.ago,
-        predict: predictionArray[0],
+        predict: Array.from(predictionArray),
       };
     });
 
