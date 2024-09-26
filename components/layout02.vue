@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { market } = useSelected();
 const { status, getSeoul, getKosdaq, getNasdaq } = useLive();
+const { allPredict } = useAiModel();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -15,11 +16,12 @@ const marketFunctions: { [key: string]: () => Promise<void> } = {
   nasdaq: getNasdaq,
 };
 
-const fetchMarketData = (newMarket: string) => {
+const fetchMarketData = async (newMarket: string) => {
   market.value = newMarket;
   const fetchFunction = marketFunctions[newMarket];
   if (fetchFunction) {
-    fetchFunction();
+    await fetchFunction();
+    allPredict();
   } else {
     console.error(`No fetch function found for market: ${newMarket}`);
   }

@@ -123,6 +123,26 @@ export const useAiModel = () => {
     return tf.tensor2d([feature]);
   };
 
+  // 전종목 예측
+  const allPredict = async () => {
+    const inputDataArray = lives.value.map((live) => live);
+    const predictions = await predict(inputDataArray);
+
+    const updatedLives = lives.value.map((live, index) => {
+      const prediction = predictions.map((p) => ({
+        ago: p.ago,
+        predict: p.predict[index],
+      }));
+      return {
+        ...live,
+        predict: prediction,
+      };
+    });
+
+    // lives.value를 업데이트합니다.
+    lives.value = updatedLives;
+  };
+
   const predict = async (inputDataArray: any[]) => {
     if (models.value.length === 0) {
       throw new Error("No model found for the specified sector");
@@ -147,8 +167,7 @@ export const useAiModel = () => {
     });
 
     const result = await Promise.all(predictions);
-    predicts.value = result.sort(sortByAgo);
-    return predicts.value;
+    return result.sort(sortByAgo);
   };
 
   const timeUnits: any = {
@@ -169,6 +188,7 @@ export const useAiModel = () => {
     models,
     status,
     predicts,
+    allPredict,
     getModel,
     predict,
   };
