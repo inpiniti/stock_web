@@ -42,7 +42,7 @@ const selectedMarketLabel = computed(() => {
         <RowCover class="gap-3 text-2xl">
           <Button class="w-fit">{{ selectedMarketLabel }}</Button>
           <Button variant="outline" class="w-fit text-primary border-red-500">
-            {{ sector_kr }}
+            {{ live.sector_tr }}
           </Button>
         </RowCover>
       </Fix>

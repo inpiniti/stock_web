@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { sector } = useSelected();
-const { live } = useLive();
+const { live, lives } = useLive();
 const { status, getModel, allPredict } = useAiModel();
 
 const selectSector = async (newSector: string) => {
@@ -8,7 +8,10 @@ const selectSector = async (newSector: string) => {
   await getModel(sector.value);
 
   console.log("live.value", live.value);
-  allPredict();
+  await allPredict();
+  live.value =
+    lives.value.find((l: ILive) => l.name === live.value.name) ||
+    lives.value[0];
   //predict([live.value]);
 };
 </script>
