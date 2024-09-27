@@ -1,38 +1,11 @@
 <script setup lang="ts">
-const { live, lives } = useLive();
+const { live, filterLives } = useLive();
 const status = ref("success");
 
 const { predict } = useAiModel();
 const selectLive = (newLive: ILive) => {
   live.value = newLive;
   predict([live.value]);
-};
-
-// 전종목 예측
-const allPredict = async () => {
-  status.value = "pending";
-
-  // 0.1초 후에 계산을 시작합니다.
-  setTimeout(async () => {
-    const inputDataArray = lives.value.map((live) => live);
-    const predictions = await predict(inputDataArray);
-    console.log("predictions", predictions);
-
-    const updatedLives = lives.value.map((live, index) => {
-      const prediction = predictions.map((p) => ({
-        ago: p.ago,
-        predict: p.predict[index],
-      }));
-      return {
-        ...live,
-        predict: prediction,
-      };
-    });
-
-    // lives.value를 업데이트합니다.
-    lives.value = updatedLives;
-    status.value = "success";
-  }, 100); // 100ms 지연
 };
 </script>
 <template>
@@ -48,22 +21,13 @@ const allPredict = async () => {
       <Fix>
         <RowCover class="items-center justify-between w-full">
           <TypographyH4>Stock List</TypographyH4>
-          <Button @click="allPredict">
-            <p v-if="status == 'pending'" class="text-center w-full">
-              <font-awesome icon="circle-notch" spin />
-            </p>
-            <p v-else>
-              전종목 예측 (전종목 예측은 브라우져의 자원을 많이 소모하는
-              작업입니다. 주의해주세요.)
-            </p>
-          </Button>
         </RowCover>
       </Fix>
       <Full>
         <ColCover class="gap-1 overflow-y-scroll">
           <div
             class="p-2 px-5 text-xs rounded-lg bg-neutral-100 cursor-pointer hover:bg-neutral-50"
-            v-for="live in lives"
+            v-for="live in filterLives"
             :key="live.name"
             @click="selectLive(live)"
           >

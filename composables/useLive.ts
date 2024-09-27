@@ -3,6 +3,18 @@ export const useLive = () => {
   const live = useState<ILive>("live", () => <ILive>{});
   const status = useState("status", () => "success");
 
+  const { search } = useSelected();
+  const filterLives = computed(() => {
+    return lives.value.filter((live) => {
+      const searchValue = search.value.toLowerCase();
+      return (
+        live.name.toLowerCase().includes(searchValue) ||
+        live.description.toLowerCase().includes(searchValue) ||
+        live.logoid.toLowerCase().includes(searchValue)
+      );
+    });
+  });
+
   const getSeoul = async () => {
     status.value = "pending";
     lives.value =
@@ -25,6 +37,7 @@ export const useLive = () => {
   return {
     live,
     lives,
+    filterLives,
     status,
     getSeoul,
     getKosdaq,

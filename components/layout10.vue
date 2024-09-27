@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { search } = useSelected();
 const { live } = useLive();
 </script>
 <template>
@@ -21,7 +22,11 @@ const { live } = useLive();
       <TypographyH3>{{ live.logoid }} ({{ live.description }})</TypographyH3>
     </RowCover>
     <div class="shrink-0 relative">
-      <Input placeholder="Search" class="pl-10 border-0 w-96" />
+      <Input
+        placeholder="Search"
+        class="pl-10 border-0 w-96"
+        v-model="search"
+      />
       <font-awesome class="absolute top-3 left-3" icon="magnifying-glass" />
     </div>
   </RowCover>
