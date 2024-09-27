@@ -7,21 +7,18 @@ export const useLive = () => {
     status.value = "pending";
     lives.value =
       (await useSupabase().from("seoul_live").select("*")).data ?? [];
-    live.value = lives.value[0];
     status.value = "success";
   };
   const getKosdaq = async () => {
     status.value = "pending";
     lives.value =
       (await useSupabase().from("kosdaq_live").select("*")).data ?? [];
-    live.value = lives.value[0];
     status.value = "success";
   };
   const getNasdaq = async () => {
     status.value = "pending";
     lives.value =
       (await useSupabase().from("nasdaq_live").select("*")).data ?? [];
-    live.value = lives.value[0];
     status.value = "success";
   };
 

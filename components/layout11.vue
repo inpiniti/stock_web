@@ -106,26 +106,26 @@ const selectedMarketLabel = computed(() => {
         <RowCover class="gap-2">
           <div
             class="backdrop-blur-xl rounded-lg p-3 w-fit text-black"
-            v-for="(predict, index) in predicts"
+            v-for="(item, index) in live.predict"
           >
             <ColCover class="gap-1">
               <p class="text-xs">
                 {{
-                  predict.ago == "h1"
+                  item.ago == "h1"
                     ? "1시간"
-                    : predict.ago == "d1"
+                    : item.ago == "d1"
                     ? "1일"
-                    : predict.ago == "d2"
+                    : item.ago == "d2"
                     ? "2일"
-                    : predict.ago == "d3"
+                    : item.ago == "d3"
                     ? "3일"
-                    : predict.ago == "d4"
+                    : item.ago == "d4"
                     ? "4일"
-                    : predict.ago == "d5"
+                    : item.ago == "d5"
                     ? "5일"
-                    : predict.ago == "d6"
+                    : item.ago == "d6"
                     ? "6일"
-                    : predict.ago == "w1"
+                    : item.ago == "w1"
                     ? "일주일"
                     : ""
                 }}
@@ -133,7 +133,7 @@ const selectedMarketLabel = computed(() => {
               </p>
               <RowCover class="items-end">
                 <TypographyP>
-                  {{ (predict.predict * 100).toFixed(2) }}%
+                  {{ (item.predict * 100).toFixed(2) }}%
                 </TypographyP>
               </RowCover>
             </ColCover>
