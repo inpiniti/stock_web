@@ -1,10 +1,51 @@
 <script setup lang="ts">
-const { live, filterLives } = useLive();
+import { set } from "@vueuse/core";
+
+const { market } = useSelected();
+const {
+  live,
+  filterLives,
+  status: liveState,
+  getSeoul,
+  getKosdaq,
+  getNasdaq,
+} = useLive();
 
 const { predict, allPredict, status } = useAiModel();
 const selectLive = (newLive: ILive) => {
   live.value = newLive;
   predict([live.value]);
+};
+
+const marketFunctions: { [key: string]: () => Promise<void> } = {
+  seoul: getSeoul,
+  kosdaq: getKosdaq,
+  nasdaq: getNasdaq,
+};
+
+const interval = ref<ReturnType<typeof setInterval> | null>(null);
+
+onMounted(async () => {
+  // 1분에 한번씩 데이터를 가져옵니다.
+  interval.value = setInterval(async () => {
+    await fetchMarketData();
+    await allPredict();
+  }, 60000);
+});
+
+onUnmounted(() => {
+  if (interval.value !== null) {
+    clearInterval(interval.value);
+  }
+});
+
+const fetchMarketData = async () => {
+  const fetchFunction = marketFunctions[market.value];
+  if (fetchFunction) {
+    await fetchFunction();
+  } else {
+    console.error(`No fetch function found for market: ${market.value}`);
+  }
 };
 </script>
 <template>
@@ -20,15 +61,25 @@ const selectLive = (newLive: ILive) => {
       <Fix>
         <RowCover class="items-center justify-between w-full">
           <TypographyH4>Stock List</TypographyH4>
-          <Button @click="allPredict">
-            <p v-if="status == 'pending'" class="text-center w-full">
-              <font-awesome icon="circle-notch" spin />
-            </p>
-            <p v-else>
-              전종목 예측 (전종목 예측은 브라우져의 자원을 많이 소모하는
-              작업입니다. 주의해주세요.)
-            </p>
-          </Button>
+          <Fix>
+            <RowCover class="gap-2">
+              <Button>
+                <p v-if="liveState == 'pending'" class="text-center w-full">
+                  <font-awesome icon="circle-notch" spin />
+                </p>
+                <p v-else>1분마다 업데이트</p>
+              </Button>
+              <Button @click="allPredict">
+                <p v-if="status == 'pending'" class="text-center w-full">
+                  <font-awesome icon="circle-notch" spin />
+                </p>
+                <p v-else>
+                  전종목 예측 (전종목 예측은 브라우져의 자원을 많이 소모하는
+                  작업입니다. 주의해주세요.)
+                </p>
+              </Button>
+            </RowCover>
+          </Fix>
         </RowCover>
       </Fix>
       <Full>
