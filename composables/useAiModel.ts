@@ -45,7 +45,8 @@ export const useAiModel = () => {
   };
 
   const getModel = (sector: string) => {
-    return models.value[sector];
+    model.value = models.value[sector];
+    return model.value;
   };
 
   const decodeByteaToJson = (byteaString: string) => {
@@ -142,29 +143,34 @@ export const useAiModel = () => {
 
   // 전종목 예측
   const allPredict = async () => {
-    const inputDataArray = lives.value.map((live) => live);
-    const predictions = await predict(inputDataArray);
+    status.value = "pending";
 
-    const updatedLives = lives.value.map((live, index) => {
-      const prediction = predictions.map((p) => ({
-        ago: p.ago,
-        predict: p.predict[index],
-      }));
-      return {
-        ...live,
-        predict: prediction,
-      };
+    setTimeout(async () => {
+      const inputDataArray = lives.value.map((live) => live);
+      const predictions = await predict(inputDataArray);
+
+      const updatedLives = lives.value.map((live, index) => {
+        const prediction = predictions.map((p) => ({
+          ago: p.ago,
+          predict: p.predict[index],
+        }));
+        return {
+          ...live,
+          predict: prediction,
+        };
+      });
+
+      // predict 필드의 합산 값을 기준으로 정렬합니다.
+      updatedLives.sort((a, b) => {
+        const sumA = a.predict.reduce((acc, curr) => acc + curr.predict, 0);
+        const sumB = b.predict.reduce((acc, curr) => acc + curr.predict, 0);
+        return sumB - sumA; // 큰 순서대로 정렬
+      });
+
+      // lives.value를 업데이트합니다.
+      lives.value = updatedLives;
+      status.value = "success";
     });
-
-    // predict 필드의 합산 값을 기준으로 정렬합니다.
-    updatedLives.sort((a, b) => {
-      const sumA = a.predict.reduce((acc, curr) => acc + curr.predict, 0);
-      const sumB = b.predict.reduce((acc, curr) => acc + curr.predict, 0);
-      return sumB - sumA; // 큰 순서대로 정렬
-    });
-
-    // lives.value를 업데이트합니다.
-    lives.value = updatedLives;
   };
 
   const predict = async (inputDataArray: any[]) => {

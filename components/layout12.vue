@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const { live, filterLives } = useLive();
-const status = ref("success");
 
-const { predict } = useAiModel();
+const { predict, allPredict, status } = useAiModel();
 const selectLive = (newLive: ILive) => {
   live.value = newLive;
   predict([live.value]);
@@ -21,6 +20,15 @@ const selectLive = (newLive: ILive) => {
       <Fix>
         <RowCover class="items-center justify-between w-full">
           <TypographyH4>Stock List</TypographyH4>
+          <Button @click="allPredict">
+            <p v-if="status == 'pending'" class="text-center w-full">
+              <font-awesome icon="circle-notch" spin />
+            </p>
+            <p v-else>
+              전종목 예측 (전종목 예측은 브라우져의 자원을 많이 소모하는
+              작업입니다. 주의해주세요.)
+            </p>
+          </Button>
         </RowCover>
       </Fix>
       <Full>

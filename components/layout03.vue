@@ -6,7 +6,6 @@ const { status, getModel, allPredict } = useAiModel();
 const selectSector = async (newSector: string) => {
   sector.value = newSector;
   await getModel(sector.value);
-  await allPredict();
   live.value =
     lives.value.find((l: ILive) => l.name === live.value.name) ||
     lives.value[0];

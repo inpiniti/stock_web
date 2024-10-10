@@ -6,7 +6,6 @@ const { getModel, getModels, allPredict } = useAiModel();
 onMounted(async () => {
   await getModels();
   await Promise.all([getSeoul(), getModel(sector.value)]);
-  await allPredict();
   live.value = lives.value[0];
 });
 </script>

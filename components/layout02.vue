@@ -21,7 +21,6 @@ const fetchMarketData = async (newMarket: string) => {
   const fetchFunction = marketFunctions[newMarket];
   if (fetchFunction) {
     await fetchFunction();
-    allPredict();
   } else {
     console.error(`No fetch function found for market: ${newMarket}`);
   }

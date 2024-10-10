@@ -22,7 +22,7 @@ const model: any = ref([]);
 
 onMounted(async () => {
   getData();
-  model.value = await getModel();
+  //model.value = await getModel();
 });
 
 const getData = async () => {
