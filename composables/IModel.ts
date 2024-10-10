@@ -6,7 +6,7 @@ export interface IModel {
   ago: string; // 시간 경과
 }
 
-const market_sector = [
+export const marketSectors = [
   "all",
   "commercialServices",
   "communications",

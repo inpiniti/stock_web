@@ -3,11 +3,13 @@ import * as tf from "@tensorflow/tfjs";
 export const useAiModel = () => {
   const { live, lives } = useLive();
 
-  const models = useState<IModel[]>("model", () => []);
+  // 셀렉티드 된 모델
+  const model = useState<IModel[]>("model", () => []);
+  const models = useState<any>("models", () => {});
   const predicts = useState<any[]>("predicts", () => []);
   const status = ref("success");
 
-  const getModel = async (sector: string) => {
+  const fetchModelFromSupabase = async (sector: string) => {
     status.value = "pending";
     const { data, error } = await useSupabase()
       .from("ai_models")
@@ -20,7 +22,7 @@ export const useAiModel = () => {
       return;
     }
 
-    models.value = data.map((modelData: any) => {
+    model.value = data.map((modelData: any) => {
       return {
         ...modelData,
         model: decodeByteaToJson(modelData.model),
@@ -29,6 +31,21 @@ export const useAiModel = () => {
     });
 
     status.value = "success";
+    return model.value;
+  };
+
+  const getModels = async () => {
+    const modelsDataSet: any = {}; // Initialize an empty object to hold the dataset
+    for (const sector of marketSectors) {
+      const modelData = await fetchModelFromSupabase(sector); // Await the async call to getModel
+      modelsDataSet[sector] = modelData; // Assign the returned data to the corresponding sector key
+    }
+    models.value = modelsDataSet; // Assign the dataset to the models ref
+    return models.value; // Return the dataset
+  };
+
+  const getModel = (sector: string) => {
+    return models.value[sector];
   };
 
   const decodeByteaToJson = (byteaString: string) => {
@@ -151,7 +168,7 @@ export const useAiModel = () => {
   };
 
   const predict = async (inputDataArray: any[]) => {
-    if (models.value.length === 0) {
+    if (model.value.length === 0) {
       throw new Error("No model found for the specified sector");
     }
 
@@ -159,7 +176,7 @@ export const useAiModel = () => {
     const inputTensorDataArray = inputDataArray.map(preprocess);
     const inputTensorData = tf.concat(inputTensorDataArray, 0);
 
-    const predictions = models.value.map(async (aiModel: IModel) => {
+    const predictions = model.value.map(async (aiModel: IModel) => {
       // 모델을 로드합니다.
       const tfModel = await loadModel(aiModel);
 
@@ -177,26 +194,58 @@ export const useAiModel = () => {
     return result.sort(sortByAgo);
   };
 
+  const getPredictionFromModel = async (modelDatas: IModel[]) => {
+    const predictions = modelDatas.map(async (modelData) => {
+      const model = await loadModel(modelData);
+      const inputTensor = preprocess(live.value);
+      const predictionArray = model.predict(inputTensor) as tf.Tensor;
+      return {
+        ago: modelData.ago,
+        predict: Array.from(predictionArray.dataSync()),
+      };
+    });
+
+    const result = await Promise.all(predictions);
+    const sortedResult = result.sort(sortByAgo);
+    return sortedResult;
+  };
+
   const timeUnits: any = {
     h: 1,
     d: 24,
     w: 24 * 7,
+    y: 8760, // 24*365 hours in a year
   };
 
   const sortByAgo = (a: { ago: string }, b: { ago: string }) => {
-    const unitA = a.ago.slice(-1);
-    const unitB = b.ago.slice(-1);
-    const valueA = parseInt(a.ago) * timeUnits[unitA];
-    const valueB = parseInt(b.ago) * timeUnits[unitB];
+    const regex = /([hdwy])(\d+)/; // 단위와 숫자를 분리하는 정규 표현식
+    const matchA = a.ago.match(regex);
+    const matchB = b.ago.match(regex);
+
+    if (!matchA || !matchB) {
+      return 0;
+    }
+
+    const numA = parseInt(matchA[2]); // 숫자 추출 부분 수정
+    const unitA = matchA[1]; // 단위 추출 부분 수정
+    const numB = parseInt(matchB[2]); // 숫자 추출 부분 수정
+    const unitB = matchB[1]; // 단위 추출 부분 수정
+
+    const valueA = numA * timeUnits[unitA];
+    const valueB = numB * timeUnits[unitB];
+
     return valueA - valueB;
   };
 
   return {
+    model,
     models,
     status,
     predicts,
     allPredict,
     getModel,
+    getModels,
     predict,
+    getPredictionFromModel,
   };
 };

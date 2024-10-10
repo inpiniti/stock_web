@@ -343,3 +343,16 @@ export const pgAiModel = pgTable("ai_models", {
   ago: text("ago"),
   weights: text("weights"), // weights 필드 추가
 });
+
+export const toCamelCase = (str: string | undefined): string => {
+  if (typeof str !== "string") {
+    return "";
+  }
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word, index) =>
+      index === 0 ? word : word[0].toUpperCase() + word.slice(1)
+    )
+    .join("");
+};

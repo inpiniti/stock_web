@@ -1,12 +1,20 @@
 <script setup lang="ts">
-const { market, sector, sector_kr, isInterest, isLive, search, stockList } =
-  useSelected();
+const {
+  market,
+  sector,
+  sectors,
+  sector_kr,
+  isInterest,
+  isLive,
+  search,
+  stockList,
+} = useSelected();
 const { live } = useLive();
-const { predicts } = useAiModel();
+const { model, models, predicts } = useAiModel();
 </script>
 <template>
   <DevOnly>
-    <div class="w-full border-red-500 border text-red-500">
+    <div class="w-full text-red-500 border border-red-500">
       <Accordion
         type="single"
         class="w-full"
@@ -16,10 +24,22 @@ const { predicts } = useAiModel();
         <AccordionItem key="selected" value="selected">
           <AccordionTrigger> useSelected </AccordionTrigger>
           <AccordionContent>
-            {{ market }}, sector: {{ sector }}, sector_kr: {{ sector_kr }},
-            isInterest: {{ isInterest }}, isLive: {{ isLive }}, search:
-            {{ search }}, stockList:
+            market: {{ market }}, sector: {{ sector }}, sectors: {{ sectors }},
+            sector_kr: {{ sector_kr }}, isInterest: {{ isInterest }}, isLive:
+            {{ isLive }}, search: {{ search }}, stockList:
             {{ stockList }}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem key="selected" value="model">
+          <AccordionTrigger> useAiModel.model </AccordionTrigger>
+          <AccordionContent>
+            {{ model }}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem key="selected" value="models">
+          <AccordionTrigger> useAiModel.models </AccordionTrigger>
+          <AccordionContent>
+            {{ models }}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem key="live" value="live">

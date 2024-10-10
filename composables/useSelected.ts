@@ -10,9 +10,15 @@ export const useSelected = () => {
     return sectorList[sector.value];
   });
 
+  const sectors = computed(() => {
+    const live = useState<ILive>("live", () => <ILive>{});
+    return ["all", market.value, toCamelCase(live.value.sector)];
+  });
+
   return {
     market,
     sector,
+    sectors,
     sector_kr,
     isInterest,
     isLive,
