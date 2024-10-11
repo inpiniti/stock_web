@@ -2,6 +2,7 @@ import * as tf from "@tensorflow/tfjs";
 
 export const useAiModel = () => {
   const { live, lives } = useLive();
+  const { favoriteLives } = useFavoritesLive();
 
   // 셀렉티드 된 모델
   const model = useState<IModel[]>("model", () => []);
@@ -173,6 +174,38 @@ export const useAiModel = () => {
     });
   };
 
+  // 관심종목 예측
+  const favoritePredict = async () => {
+    status.value = "pending";
+
+    setTimeout(async () => {
+      const inputDataArray = favoriteLives.value.map((live) => live);
+      const predictions = await predict(inputDataArray);
+
+      const updatedLives = lives.value.map((live, index) => {
+        const prediction = predictions.map((p) => ({
+          ago: p.ago,
+          predict: p.predict[index],
+        }));
+        return {
+          ...live,
+          predict: prediction,
+        };
+      });
+
+      // predict 필드의 합산 값을 기준으로 정렬합니다.
+      updatedLives.sort((a, b) => {
+        const sumA = a.predict.reduce((acc, curr) => acc + curr.predict, 0);
+        const sumB = b.predict.reduce((acc, curr) => acc + curr.predict, 0);
+        return sumB - sumA; // 큰 순서대로 정렬
+      });
+
+      // lives.value를 업데이트합니다.
+      favoriteLives.value = updatedLives;
+      status.value = "success";
+    });
+  };
+
   const predict = async (inputDataArray: any[]) => {
     if (model.value.length === 0) {
       throw new Error("No model found for the specified sector");
@@ -249,6 +282,7 @@ export const useAiModel = () => {
     status,
     predicts,
     allPredict,
+    favoritePredict,
     getModel,
     getModels,
     predict,

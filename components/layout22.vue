@@ -1,38 +1,22 @@
 <script setup lang="ts">
-const data = ref([
-  {
-    name: "코스피지수",
-    description: "+0.72",
-    sector_tr: "+0.03%",
-    close: "2,572.37",
-  },
-  {
-    name: "코스닥지수",
-    description: "-3.31",
-    sector_tr: "-0.45%",
-    close: "727.73",
-  },
-  {
-    name: "나스닥지수",
-    description: "+174.15",
-    sector_tr: "+1.00%",
-    close: "17,569.68",
-  },
-  {
-    name: "S&P 500",
-    description: "+41.60",
-    sector_tr: "+0.75%",
-    close: "5,595.80",
-  },
-  {
-    name: "금",
-    description: "+10.10",
-    sector_tr: "+0.39%",
-    close: "2,590.80",
-  },
-]);
+const { favoritePredict } = useAiModel();
+const { favoriteLives, getFavoriteLives } = useFavoritesLive();
 
-const { favoriteLives } = useFavoritesLive();
+const interval = ref<ReturnType<typeof setInterval> | null>(null);
+
+onMounted(async () => {
+  // 1분에 한번씩 데이터를 가져옵니다.
+  interval.value = setInterval(async () => {
+    await getFavoriteLives();
+    await favoritePredict();
+  }, 60000);
+});
+
+onUnmounted(() => {
+  if (interval.value !== null) {
+    clearInterval(interval.value);
+  }
+});
 </script>
 <template>
   <DevOnly>
@@ -54,15 +38,9 @@ const { favoriteLives } = useFavoritesLive();
             <Fix class="flex items-center text-neutral-500 whitespace-nowrap">
               {{ live.name }}
             </Fix>
-            <Fix class="flex items-center text-neutral-500">
-              {{ live.description }}
+            <Fix class="flex items-center" v-for="item in live?.predict">
+              {{ (item.predict * 100).toFixed(0) }}%
             </Fix>
-            <Fix class="flex items-center">
-              <Badge>{{ live.sector_tr }}</Badge>
-            </Fix>
-            <Full class="flex items-center justify-end font-bold">
-              {{ live.close }}
-            </Full>
           </RowCover>
         </div>
       </ColCover>
