@@ -20,14 +20,28 @@
           <Fix>
             <RowCover class="gap-5">
               <Full>
-                <Layout12 />
+                <ColCover class="gap-5">
+                  <Full>
+                    <Layout12 />
+                  </Full>
+                  <Fix>
+                    <RowCover class="gap-5">
+                      <Full>
+                        <Layout13 />
+                      </Full>
+                      <Full>
+                        <Layout14 />
+                      </Full>
+                    </RowCover>
+                  </Fix>
+                </ColCover>
               </Full>
               <Fix>
                 <Layout22 />
               </Fix>
             </RowCover>
           </Fix>
-          <Fix>
+          <!-- <Fix>
             <RowCover class="gap-5">
               <Full>
                 <RowCover class="gap-5">
@@ -43,7 +57,7 @@
                 <Layout23 />
               </Fix>
             </RowCover>
-          </Fix>
+          </Fix> -->
         </ColCover>
       </Full>
     </RowCover>

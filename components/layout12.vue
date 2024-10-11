@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { set } from "@vueuse/core";
-
 const { market } = useSelected();
 const {
   live,

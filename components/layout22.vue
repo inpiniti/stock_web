@@ -31,6 +31,8 @@ const data = ref([
     close: "2,590.80",
   },
 ]);
+
+const { favoriteLives } = useFavoritesLive();
 </script>
 <template>
   <DevOnly>
@@ -40,26 +42,26 @@ const data = ref([
       22
     </div>
   </DevOnly>
-  <Card class="p-5 h-96 w-96">
+  <Card class="p-5 h-full w-96">
     <ColCover class="gap-2">
       <TypographyH4>주요 지수</TypographyH4>
       <ColCover class="gap-1 overflow-y-scroll">
         <div
           class="p-2 px-5 text-xs rounded-lg bg-neutral-100"
-          v-for="seoul in data"
+          v-for="live in favoriteLives"
         >
           <RowCover class="gap-3">
             <Fix class="flex items-center text-neutral-500 whitespace-nowrap">
-              {{ seoul.name }}
+              {{ live.name }}
             </Fix>
             <Fix class="flex items-center text-neutral-500">
-              {{ seoul.description }}
+              {{ live.description }}
             </Fix>
             <Fix class="flex items-center">
-              <Badge>{{ seoul.sector_tr }}</Badge>
+              <Badge>{{ live.sector_tr }}</Badge>
             </Fix>
             <Full class="flex items-center justify-end font-bold">
-              {{ seoul.close }}
+              {{ live.close }}
             </Full>
           </RowCover>
         </div>

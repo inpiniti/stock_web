@@ -5,6 +5,7 @@ const { getModel, getModels } = useAiModel();
 const { user } = useSign();
 
 const { getUserFavorites } = useUserFavorites();
+const { getFavoriteLives } = useFavoritesLive();
 
 onMounted(async () => {
   user.value = (await useSupabase().auth.getUser()).data.user;
@@ -13,6 +14,7 @@ onMounted(async () => {
   }
   await getSeoul();
   await getModels();
+  getFavoriteLives();
   getModel(sector.value);
   live.value = lives.value[0];
 });

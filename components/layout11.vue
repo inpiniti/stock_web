@@ -5,6 +5,7 @@ const { models, getPredictionFromModel } = useAiModel();
 const { userFavorites, getUserFavorites, setUserFavorites } =
   useUserFavorites();
 const { user } = useSign();
+const { getFavoriteLives } = useFavoritesLive();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -25,12 +26,6 @@ const sectorPredicts = ref<any>([]);
 const isFavorite = computed(() => {
   if (userFavorites.value === undefined) return false;
   const favorites = JSON.parse(userFavorites.value.favorite_stocks);
-  console.log("favorites", favorites);
-  console.log("live.value.name", live.value.name);
-  console.log(
-    "favorites.includes(live.value.name)",
-    favorites.includes(live.value.name)
-  );
   return favorites.includes(live.value.name);
 });
 
@@ -54,7 +49,7 @@ watchEffect(async () => {
   }
 });
 
-const registerFavorite = () => {
+const registerFavorite = async () => {
   const jsonFavorites = JSON.parse(
     userFavorites.value?.favorite_stocks ?? "[]"
   );
@@ -62,25 +57,28 @@ const registerFavorite = () => {
 
   const strFavorites = JSON.stringify(jsonFavorites);
 
-  setUserFavorites({
+  await setUserFavorites({
     user_id: user.value.id,
     favorite_stocks: strFavorites,
   });
 
-  getUserFavorites(user.value.id);
+  await getUserFavorites(user.value.id);
+  await getFavoriteLives();
 };
 
-const removeFromFavorites = () => {
+const removeFromFavorites = async () => {
   const jsonFavorites = JSON.parse(
     userFavorites.value?.favorite_stocks ?? "[]"
   ).filter((stock: string) => stock !== live.value.name);
 
   const strFavorites = JSON.stringify(jsonFavorites);
 
-  setUserFavorites({
+  await setUserFavorites({
     user_id: user.value.id,
     favorite_stocks: strFavorites,
   });
+  await getUserFavorites(user.value.id);
+  await getFavoriteLives();
 };
 </script>
 <template>
@@ -110,10 +108,14 @@ const removeFromFavorites = () => {
       <Fix>
         <RowCover class="gap-3 text-2xl">
           <RowCover class="gap-3 text-2xl">
+            <Button variant="outline" class="border-red-500 w-fit text-primary">
+              {{ live.name }}
+            </Button>
             <Button class="w-fit">{{ selectedMarketLabel }}</Button>
             <Button variant="outline" class="border-red-500 w-fit text-primary">
               {{ live.sector_tr }}
             </Button>
+            <Button class="w-fit">{{ live.description }}</Button>
           </RowCover>
           <Fix>
             <Button @click="removeFromFavorites" v-if="isFavorite">
