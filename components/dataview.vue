@@ -11,6 +11,7 @@ const {
 } = useSelected();
 const { live } = useLive();
 const { model, models, predicts } = useAiModel();
+const { user } = useSign();
 </script>
 <template>
   <DevOnly>
@@ -40,6 +41,12 @@ const { model, models, predicts } = useAiModel();
           <AccordionTrigger> useAiModel.models </AccordionTrigger>
           <AccordionContent>
             {{ models }}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem key="selected" value="user">
+          <AccordionTrigger> user </AccordionTrigger>
+          <AccordionContent>
+            {{ user }}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem key="live" value="live">

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const { market } = useSelected();
 const { status, getSeoul, getKosdaq, getNasdaq } = useLive();
-const { allPredict } = useAiModel();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
