@@ -28,7 +28,7 @@ onUnmounted(() => {
   </DevOnly>
   <Card class="p-5 h-full w-96">
     <ColCover class="gap-2">
-      <TypographyH4>주요 지수</TypographyH4>
+      <TypographyH4>관심 종목</TypographyH4>
       <ColCover class="gap-1 overflow-y-scroll">
         <div
           class="p-2 px-5 text-xs rounded-lg bg-neutral-100"
