@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const { favoritePredict } = useAiModel();
+const { live } = useLive();
+const { favoritePredict, predict } = useAiModel();
 const { favoriteLives, getFavoriteLives } = useFavoritesLive();
 
 const interval = ref<ReturnType<typeof setInterval> | null>(null);
@@ -17,6 +18,11 @@ onUnmounted(() => {
     clearInterval(interval.value);
   }
 });
+
+const selectLive = (newLive: ILive) => {
+  live.value = newLive;
+  predict([live.value]);
+};
 </script>
 <template>
   <DevOnly>
@@ -40,8 +46,9 @@ onUnmounted(() => {
       </Fix>
       <ColCover class="gap-1 overflow-y-scroll">
         <div
-          class="p-2 px-5 text-xs rounded-lg bg-neutral-100"
+          class="p-2 px-5 text-xs rounded-lg bg-neutral-100 hover:bg-neutral-50"
           v-for="live in favoriteLives"
+          @click="selectLive(live)"
         >
           <RowCover class="gap-3">
             <Fix class="flex items-center text-neutral-500 whitespace-nowrap">
