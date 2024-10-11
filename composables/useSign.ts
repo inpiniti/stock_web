@@ -1,5 +1,5 @@
 export const useSign = () => {
-  const user = useState("user");
+  const user = useState<any>("user");
 
   onMounted(async () => {
     user.value = (await useSupabase().auth.getUser()).data.user;
@@ -21,5 +21,14 @@ export const useSign = () => {
     }
   };
 
-  return { user, loginForKakao };
+  const logout = async () => {
+    const { error } = await useSupabase().auth.signOut();
+    if (error) {
+      console.error("로그아웃 실패", error);
+    } else {
+      user.value = null; // 사용자 상태를 null로 설정하여 로그아웃 상태 반영
+    }
+  };
+
+  return { user, loginForKakao, logout };
 };

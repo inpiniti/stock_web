@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { loginForKakao } = useSign();
+const { loginForKakao, user } = useSign();
 </script>
 <template>
   <DevOnly>
@@ -10,25 +10,28 @@ const { loginForKakao } = useSign();
     </div>
   </DevOnly>
   <Card>
-    <RowCover class="items-center gap-1 p-1">
+    <RowCover class="items-center gap-1 p-1" v-if="user">
       <Avatar>
-        <AvatarImage
-          src="https://lh3.googleusercontent.com/ogw/AF2bZyjUvvbZ4WpJusKWejyocWVO1pDeCTDwr5XewoW8LVlRnQ=s32-c-mo"
-          alt="@radix-vue"
-        />
+        <AvatarImage :src="user.user_metadata.avatar_url" alt="@radix-vue" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <ColCover>
-        <TypographySmall>younginpiniti@gmail.com</TypographySmall>
-        <TypographyP>인피니티님</TypographyP>
+        <TypographySmall>{{ user.user_metadata.email }}</TypographySmall>
+        <TypographyP>{{ user.user_metadata.name }}님</TypographyP>
       </ColCover>
+      <Button type="submit" class="text-black" @click="loginForKakao">
+        <font-awesome icon="comment" class="mr-2" />
+        로그아웃
+      </Button>
+    </RowCover>
+    <RowCover v-else>
       <Button
         type="submit"
         class="text-black bg-yellow-300"
         @click="loginForKakao"
       >
         <font-awesome icon="comment" class="mr-2" />
-        kakao
+        KAKAO 로그인
       </Button>
     </RowCover>
   </Card>
