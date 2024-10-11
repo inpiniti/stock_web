@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { live } = useLive();
-const { market, sector_kr, sectors } = useSelected();
-const { models, predicts, predict, getPredictionFromModel } = useAiModel();
+const { market, sectors } = useSelected();
+const { models, getPredictionFromModel } = useAiModel();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -14,9 +14,9 @@ const selectedMarketLabel = computed(() => {
   return selectedMarket ? selectedMarket.label : "Unknown";
 });
 
-const allPredicts = ref([]);
-const marketPredicts = ref([]);
-const sectorPredicts = ref([]);
+const allPredicts = ref<any>([]);
+const marketPredicts = ref<any>([]);
+const sectorPredicts = ref<any>([]);
 
 watchEffect(async () => {
   if (
@@ -64,10 +64,18 @@ watchEffect(async () => {
     <ColCover class="relative z-20 gap-5 text-white">
       <Fix>
         <RowCover class="gap-3 text-2xl">
-          <Button class="w-fit">{{ selectedMarketLabel }}</Button>
-          <Button variant="outline" class="border-red-500 w-fit text-primary">
-            {{ live.sector_tr }}
-          </Button>
+          <RowCover class="gap-3 text-2xl">
+            <Button class="w-fit">{{ selectedMarketLabel }}</Button>
+            <Button variant="outline" class="border-red-500 w-fit text-primary">
+              {{ live.sector_tr }}
+            </Button>
+          </RowCover>
+          <Fix>
+            <Button>
+              <font-awesome :icon="['far', 'star']" class="mr-2" />
+              관심종목 등록
+            </Button>
+          </Fix>
         </RowCover>
       </Fix>
       <Fix>
@@ -134,9 +142,9 @@ watchEffect(async () => {
             <div class="text-xl font-bold">{{ sectors[index] }} AI 모듈</div>
             <div class="text-xs">
               {{
-                index == "0"
+                index == 0
                   ? "모든 주식 데이터를 학습한 인공지능 모듈입니다."
-                  : index == "1"
+                  : index == 1
                   ? "특정 시장의 데이터만 학습한 인공지능 모듈입니다."
                   : "특정 섹터의 데이터만 학습한 인공지능 모듈입니다."
               }}

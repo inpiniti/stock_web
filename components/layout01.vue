@@ -20,7 +20,6 @@ const { loginForKakao, user } = useSign();
         <TypographyP>{{ user.user_metadata.name }}님</TypographyP>
       </ColCover>
       <Button type="submit" class="text-black" @click="loginForKakao">
-        <font-awesome icon="comment" class="mr-2" />
         로그아웃
       </Button>
     </RowCover>

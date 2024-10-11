@@ -43,7 +43,10 @@ export default defineNuxtConfig({
         "earth-americas",
         "spinner",
         "circle-notch",
+        "comment",
+        "star",
       ],
+      regular: ["star"],
     },
   },
 });
