@@ -12,6 +12,7 @@ const {
 const { live } = useLive();
 const { model, models, predicts } = useAiModel();
 const { user } = useSign();
+const { userFavorites } = useUserFavorites();
 </script>
 <template>
   <DevOnly>
@@ -31,22 +32,28 @@ const { user } = useSign();
             {{ stockList }}
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem key="selected" value="model">
+        <AccordionItem key="model" value="model">
           <AccordionTrigger> useAiModel.model </AccordionTrigger>
           <AccordionContent>
             {{ model }}
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem key="selected" value="models">
+        <AccordionItem key="models" value="models">
           <AccordionTrigger> useAiModel.models </AccordionTrigger>
           <AccordionContent>
             {{ models }}
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem key="selected" value="user">
+        <AccordionItem key="user" value="user">
           <AccordionTrigger> user </AccordionTrigger>
           <AccordionContent>
             {{ user }}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem key="userFavorites" value="userFavorites">
+          <AccordionTrigger> userFavorites </AccordionTrigger>
+          <AccordionContent>
+            {{ userFavorites }}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem key="live" value="live">

@@ -1,10 +1,14 @@
 export const useUserFavorites = () => {
-  const userFavorites = ref<IUserFavorites>();
+  const userFavorites = useState<IUserFavorites>("userFavorites");
 
-  const getUserFavorites = async () => {
-    const temp: IUserFavorites[] = (
-      await useSupabase().from("user_favorites").select("*")
-    ).data ?? [<IUserFavorites>{}];
+  const getUserFavorites = async (user_id: string) => {
+    const req = (
+      await useSupabase()
+        .from("user_favorites")
+        .select("*")
+        .eq("user_id", user_id)
+    ).data;
+    const temp: IUserFavorites[] = req ?? [<IUserFavorites>{}];
     userFavorites.value = temp[0] ?? <IUserFavorites>{};
   };
 

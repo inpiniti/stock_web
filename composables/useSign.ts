@@ -1,10 +1,6 @@
 export const useSign = () => {
   const user = useState<any>("user");
 
-  onMounted(async () => {
-    user.value = (await useSupabase().auth.getUser()).data.user;
-  });
-
   const loginForKakao = async () => {
     const { data, error } = await useSupabase().auth.signInWithOAuth({
       provider: "kakao",

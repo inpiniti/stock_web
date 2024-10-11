@@ -1,11 +1,19 @@
 <script setup lang="ts">
 const { sector } = useSelected();
 const { live, lives, getSeoul } = useLive();
-const { getModel, getModels, allPredict } = useAiModel();
+const { getModel, getModels } = useAiModel();
+const { user } = useSign();
+
+const { getUserFavorites } = useUserFavorites();
 
 onMounted(async () => {
+  user.value = (await useSupabase().auth.getUser()).data.user;
+  if (user.value) {
+    getUserFavorites(user.value.id);
+  }
+  await getSeoul();
   await getModels();
-  await Promise.all([getSeoul(), getModel(sector.value)]);
+  getModel(sector.value);
   live.value = lives.value[0];
 });
 </script>

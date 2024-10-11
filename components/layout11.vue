@@ -2,6 +2,9 @@
 const { live } = useLive();
 const { market, sectors } = useSelected();
 const { models, getPredictionFromModel } = useAiModel();
+const { userFavorites, getUserFavorites, setUserFavorites } =
+  useUserFavorites();
+const { user } = useSign();
 
 const markets = [
   { value: "seoul", label: "KOSPI" },
@@ -17,6 +20,19 @@ const selectedMarketLabel = computed(() => {
 const allPredicts = ref<any>([]);
 const marketPredicts = ref<any>([]);
 const sectorPredicts = ref<any>([]);
+
+// 관심목록에 등록되어 있는지 여부 확인
+const isFavorite = computed(() => {
+  if (userFavorites.value === undefined) return false;
+  const favorites = JSON.parse(userFavorites.value.favorite_stocks);
+  console.log("favorites", favorites);
+  console.log("live.value.name", live.value.name);
+  console.log(
+    "favorites.includes(live.value.name)",
+    favorites.includes(live.value.name)
+  );
+  return favorites.includes(live.value.name);
+});
 
 watchEffect(async () => {
   if (
@@ -37,6 +53,35 @@ watchEffect(async () => {
     );
   }
 });
+
+const registerFavorite = () => {
+  const jsonFavorites = JSON.parse(
+    userFavorites.value?.favorite_stocks ?? "[]"
+  );
+  jsonFavorites.push(live.value.name);
+
+  const strFavorites = JSON.stringify(jsonFavorites);
+
+  setUserFavorites({
+    user_id: user.value.id,
+    favorite_stocks: strFavorites,
+  });
+
+  getUserFavorites(user.value.id);
+};
+
+const removeFromFavorites = () => {
+  const jsonFavorites = JSON.parse(
+    userFavorites.value?.favorite_stocks ?? "[]"
+  ).filter((stock: string) => stock !== live.value.name);
+
+  const strFavorites = JSON.stringify(jsonFavorites);
+
+  setUserFavorites({
+    user_id: user.value.id,
+    favorite_stocks: strFavorites,
+  });
+};
 </script>
 <template>
   <DevOnly>
@@ -71,7 +116,11 @@ watchEffect(async () => {
             </Button>
           </RowCover>
           <Fix>
-            <Button>
+            <Button @click="removeFromFavorites" v-if="isFavorite">
+              <font-awesome icon="star" class="mr-2" />
+              관심종목 제거
+            </Button>
+            <Button @click="registerFavorite" v-else>
               <font-awesome :icon="['far', 'star']" class="mr-2" />
               관심종목 등록
             </Button>
