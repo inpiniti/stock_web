@@ -51,6 +51,17 @@ const selectLive = (newLive: ILive) => {
           @click="selectLive(live)"
         >
           <RowCover class="gap-3">
+            <Fix class="flex items-center w-10 text-neutral-500">
+              <Avatar class="border">
+                <AvatarImage
+                  :src="`https://s3-symbol-logo.tradingview.com/${live.logoid}--big.svg`"
+                  alt="@radix-vue"
+                />
+                <AvatarFallback>{{
+                  live.description?.slice(0, 2)
+                }}</AvatarFallback>
+              </Avatar>
+            </Fix>
             <Fix class="flex items-center text-neutral-500 whitespace-nowrap">
               {{ live.name }}
             </Fix>
