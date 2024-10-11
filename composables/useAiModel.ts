@@ -182,7 +182,7 @@ export const useAiModel = () => {
       const inputDataArray = favoriteLives.value.map((live) => live);
       const predictions = await predict(inputDataArray);
 
-      const updatedLives = lives.value.map((live, index) => {
+      const updatedLives = favoriteLives.value.map((live, index) => {
         const prediction = predictions.map((p) => ({
           ago: p.ago,
           predict: p.predict[index],
