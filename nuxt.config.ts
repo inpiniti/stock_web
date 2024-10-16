@@ -49,4 +49,8 @@ export default defineNuxtConfig({
       regular: ["star"],
     },
   },
+  // 서버 설정 추가
+  devServer: {
+    port: 3001,
+  },
 });

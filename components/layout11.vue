@@ -89,7 +89,7 @@ const removeFromFavorites = async () => {
       11
     </div>
   </DevOnly>
-  <Card class="relative h-full p-5 overflow-hidden bg-opacity-50">
+  <Card class="relative h-[584px] p-5 overflow-hidden bg-opacity-50">
     <video
       autoplay
       muted

@@ -54,7 +54,7 @@ const fetchMarketData = async () => {
       12
     </div>
   </DevOnly>
-  <Card class="px-5 pt-5 overflow-hidden h-96">
+  <Card class="px-5 pt-5 overflow-hidden h-full">
     <ColCover class="gap-2">
       <Fix>
         <RowCover class="items-center justify-between w-full">

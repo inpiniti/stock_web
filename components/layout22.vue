@@ -32,7 +32,7 @@ const selectLive = (newLive: ILive) => {
       22
     </div>
   </DevOnly>
-  <Card class="p-5 h-[613px] w-96">
+  <Card class="p-5 h-full w-96">
     <ColCover class="gap-2">
       <Fix>
         <RowCover>

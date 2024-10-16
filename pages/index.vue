@@ -9,38 +9,24 @@
           <Fix> <Layout01 /> </Fix>
           <Fix> <Layout02 /> </Fix>
           <Full> <Layout03 /> </Full>
-          <Fix> <Layout04 /> </Fix>
-          <Fix> <Layout05 /> </Fix>
+          <Fix> <Layout13 /> </Fix>
+          <Fix> <Layout14 /> </Fix>
         </ColCover>
       </Fix>
       <Full>
         <ColCover class="gap-5">
           <Fix> <Layout10 /> </Fix>
-          <Full> <Layout11 /> </Full>
-          <Fix>
+          <Fix> <Layout11 /> </Fix>
+          <Full>
             <RowCover class="gap-5">
               <Full>
-                <ColCover class="gap-5">
-                  <Full>
-                    <Layout12 />
-                  </Full>
-                  <Fix>
-                    <RowCover class="gap-5">
-                      <Full>
-                        <Layout13 />
-                      </Full>
-                      <Full>
-                        <Layout14 />
-                      </Full>
-                    </RowCover>
-                  </Fix>
-                </ColCover>
+                <Layout12 />
               </Full>
               <Fix>
                 <Layout22 />
               </Fix>
             </RowCover>
-          </Fix>
+          </Full>
           <!-- <Fix>
             <RowCover class="gap-5">
               <Full>
