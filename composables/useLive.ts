@@ -15,23 +15,40 @@ export const useLive = () => {
     });
   });
 
-  const getSeoul = async () => {
+  const fetchData = async (url: string): Promise<ILive[]> => {
     status.value = "pending";
-    lives.value =
-      (await useSupabase().from("seoul_live").select("*")).data ?? [];
-    status.value = "success";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data: ILive[] = await response.json();
+      status.value = "success";
+      return data;
+    } catch (error) {
+      console.error("Fetch error:", error);
+      status.value = "error";
+      return [];
+    }
+  };
+
+  const getSeoul = async () => {
+    const data = await fetchData("/api/live/seoul");
+    lives.value = data;
+    //(await useSupabase().from("seoul_live").select("*")).data ?? [];
+    //useDrizzle().select().from(pgTableSeoulLive);
   };
   const getKosdaq = async () => {
-    status.value = "pending";
-    lives.value =
-      (await useSupabase().from("kosdaq_live").select("*")).data ?? [];
-    status.value = "success";
+    const data = await fetchData("/api/live/kosdaq");
+    lives.value = data;
+    //(await useSupabase().from("kosdaq_live").select("*")).data ?? [];
+    //useDrizzle().select().from(pgTableKosdaqLive);
   };
   const getNasdaq = async () => {
-    status.value = "pending";
-    lives.value =
-      (await useSupabase().from("nasdaq_live").select("*")).data ?? [];
-    status.value = "success";
+    const data = await fetchData("/api/live/nasdaq");
+    lives.value = data;
+    //(await useSupabase().from("nasdaq_live").select("*")).data ?? [];
+    //useDrizzle().select().from(pgTableNasdaqLive);
   };
 
   return {
