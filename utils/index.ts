@@ -356,3 +356,29 @@ export const toCamelCase = (str: string | undefined): string => {
     )
     .join("");
 };
+
+export const decodeByteaToJson = (byteaString: string) => {
+  try {
+    // bytea 문자열에서 \x를 제거하고, 16진수 문자열을 디코딩합니다.
+    const hexString = byteaString.slice(2);
+    const byteArray = hexString
+      ? new Uint8Array(
+          hexString.match(/.{1,2}/g)?.map((byte) => parseInt(byte, 16)) || []
+        )
+      : new Uint8Array(0);
+    const jsonString = new TextDecoder().decode(byteArray);
+    return JSON.parse(jsonString);
+  } catch (e) {
+    console.error("Failed to decode bytea string:", e);
+    return null;
+  }
+};
+
+export const decodeBufferToJson = (buffer: {
+  type: string;
+  data: number[];
+}): any => {
+  const base64String = btoa(String.fromCharCode(...buffer.data));
+  const jsonString = atob(base64String);
+  return JSON.parse(jsonString);
+};

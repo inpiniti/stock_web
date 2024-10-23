@@ -2,6 +2,8 @@
 const { live } = useLive();
 const { market, sectors } = useSelected();
 const { models, getPredictionFromModel } = useAiModel();
+const { modelsPrice, getPredictionFromModelPrice, getModelFromDB } =
+  useAiModelPrice();
 const { userFavorites, getUserFavorites, setUserFavorites } =
   useUserFavorites();
 const { user } = useSign();
@@ -21,6 +23,40 @@ const selectedMarketLabel = computed(() => {
 const allPredicts = ref<any>([]);
 const marketPredicts = ref<any>([]);
 const sectorPredicts = ref<any>([]);
+
+const allPredictsPrice = ref<any>([]);
+const marketPredictsPrice = ref<any>([]);
+const sectorPredictsPrice = ref<any>([]);
+
+const allCombinedPredicts = computed(() => {
+  return allPredicts.value.map((predict, index) => ({
+    ...predict,
+    price:
+      Number(live.value.close) +
+      Number(live.value.close) * allPredictsPrice.value[index]?.predict,
+    change: allPredictsPrice.value[index]?.predict,
+  }));
+});
+
+const marketCombinedPredicts = computed(() => {
+  return marketPredicts.value.map((predict, index) => ({
+    ...predict,
+    price:
+      Number(live.value.close) +
+      Number(live.value.close) * marketPredictsPrice.value[index]?.predict,
+    change: marketPredictsPrice.value[index]?.predict,
+  }));
+});
+
+const sectorCombinedPredicts = computed(() => {
+  return sectorPredicts.value.map((predict, index) => ({
+    ...predict,
+    price:
+      Number(live.value.close) +
+      Number(live.value.close) * sectorPredictsPrice.value[index]?.predict,
+    change: sectorPredictsPrice.value[index]?.predict,
+  }));
+});
 
 // 관심목록에 등록되어 있는지 여부 확인
 const isFavorite = computed(() => {
@@ -46,6 +82,37 @@ watchEffect(async () => {
     sectorPredicts.value = await getPredictionFromModel(
       models.value[sectors.value[2]]
     );
+
+    // 아래코드는 저장되어 있는 모델을 이용하여 예측하는 코드인데,
+    // 브라우져 용량부족으로 모델을 미리다 로드하기가 불가능해서 그때 그때 가져와야 될것 같다.
+    // allPredictsPrice.value = await getPredictionFromModelPrice(
+    //   modelsPrice.value[sectors.value[0]]
+    // );
+    // marketPredictsPrice.value = await getPredictionFromModelPrice(
+    //   modelsPrice.value[sectors.value[1]]
+    // );
+    // sectorPredictsPrice.value = await getPredictionFromModelPrice(
+    //   modelsPrice.value[sectors.value[2]]
+    // );
+
+    console.log("sectors.value[0]", sectors.value[0]);
+
+    // 아래 코드는 모델을 가져와서 예측하는 코드이다.
+    let model = await getModelFromDB(sectors.value[0]);
+
+    console.log("model", model);
+
+    allPredictsPrice.value = await getPredictionFromModelPrice(model);
+
+    console.log("sectors.value[1]");
+
+    model = await getModelFromDB(sectors.value[1]);
+    marketPredictsPrice.value = await getPredictionFromModelPrice(model);
+
+    console.log("sectors.value[2]");
+
+    model = await getModelFromDB(sectors.value[2]);
+    sectorPredictsPrice.value = await getPredictionFromModelPrice(model);
   }
 });
 
@@ -186,21 +253,13 @@ const removeFromFavorites = async () => {
         </RowCover>
       </Fix>
       <Fix
-        v-for="(pre, index) in [allPredicts, marketPredicts, sectorPredicts]"
+        v-for="(pre, index) in [
+          allCombinedPredicts,
+          marketCombinedPredicts,
+          sectorCombinedPredicts,
+        ]"
       >
         <ColCover>
-          <Fix class="text-black">
-            <div class="text-xl font-bold">{{ sectors[index] }} AI 모듈</div>
-            <div class="text-xs">
-              {{
-                index == 0
-                  ? "모든 주식 데이터를 학습한 인공지능 모듈입니다."
-                  : index == 1
-                  ? "특정 시장의 데이터만 학습한 인공지능 모듈입니다."
-                  : "특정 섹터의 데이터만 학습한 인공지능 모듈입니다."
-              }}
-            </div>
-          </Fix>
           <RowCover class="gap-2">
             <div
               class="p-3 text-black rounded-lg backdrop-blur-xl w-fit"
@@ -229,9 +288,15 @@ const removeFromFavorites = async () => {
                   }}
                   뒤 상승율 %:
                 </p>
-                <RowCover class="items-end">
+                <RowCover class="items-end gap-2">
                   <TypographyP>
                     {{ (item.predict * 100).toFixed(2) }}%
+                  </TypographyP>
+                  <TypographyP>
+                    {{ (item.change * 100).toFixed(2) }}%
+                  </TypographyP>
+                  <TypographyP>
+                    {{ item.price.toFixed(2) }}
                   </TypographyP>
                 </RowCover>
               </ColCover>
