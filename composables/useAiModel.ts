@@ -70,10 +70,17 @@ export const useAiModel = () => {
       });
 
       // predict 필드의 합산 값을 기준으로 정렬합니다.
+      // updatedLives.sort((a, b) => {
+      //   const sumA = a.predict.reduce((acc, curr) => acc + curr.predict, 0);
+      //   const sumB = b.predict.reduce((acc, curr) => acc + curr.predict, 0);
+      //   return sumB - sumA; // 큰 순서대로 정렬
+      // });
+
+      // ago가 'h1'인 predict 필드를 기준으로 큰 순서대로 정렬합니다.
       updatedLives.sort((a, b) => {
-        const sumA = a.predict.reduce((acc, curr) => acc + curr.predict, 0);
-        const sumB = b.predict.reduce((acc, curr) => acc + curr.predict, 0);
-        return sumB - sumA; // 큰 순서대로 정렬
+        const predictA = a.predict.find((p) => p.ago === "h1")?.predict || 0;
+        const predictB = b.predict.find((p) => p.ago === "h1")?.predict || 0;
+        return predictB - predictA; // 큰 순서대로 정렬
       });
 
       // lives.value를 업데이트합니다.
